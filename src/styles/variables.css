@@ -1,0 +1,40 @@
+:root {
+  /* Colors - Deep Blue Metallic Theme */
+  --color-void: #020408;
+  --color-midnight: #051025;
+  
+  --color-surface-glass: rgba(5, 20, 45, 0.4);
+  --color-border-chrome: rgba(255, 255, 255, 0.2);
+  --color-border-glow: rgba(37, 99, 235, 0.5);
+  
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  
+  /* Accents */
+  --color-cobalt: #2563EB;
+  --color-cyan-metal: #60A5FA;
+  
+  /* Typography */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  /* Spacing */
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  
+  /* Effects */
+  --blur-heavy: 40px;
+  --shadow-deep: 0 20px 50px -10px rgba(0, 5, 20, 0.8);
+  --shadow-glow: 0 0 30px rgba(37, 99, 235, 0.3);
+  
+  --radius-card: 16px;
+  --radius-button: 999px;
+  
+  /* Z-Index */
+  --z-background: -1;
+  --z-card: 10;
+  --z-nav: 100;
+  --z-overlay: 1000;
+}

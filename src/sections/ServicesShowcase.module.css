@@ -1,0 +1,158 @@
+.section {
+  padding: 120px 64px;
+  background: linear-gradient(180deg, #051025 0%, #020408 100%);
+  overflow: hidden;
+}
+
+.header {
+  max-width: 800px;
+  margin-bottom: 80px;
+}
+
+.label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #60A5FA;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #F8FAFC;
+  line-height: 1.1;
+}
+
+.titleAccent {
+  background: linear-gradient(135deg, #2563EB 0%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.scrollContainer {
+  overflow: visible;
+  margin: 0 -64px;
+  padding: 0 64px;
+}
+
+.track {
+  display: flex;
+  gap: 32px;
+  padding: 20px 0;
+}
+
+.cardWrapper {
+  flex-shrink: 0;
+}
+
+.card {
+  width: 380px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardIcon {
+  font-size: 3rem;
+  margin-bottom: 24px;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #F8FAFC;
+  margin-bottom: 16px;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: #94A3B8;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.cardStats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 0;
+  margin-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.statsValue {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #60A5FA;
+}
+
+.statsLabel {
+  font-size: 0.75rem;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.cardButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #60A5FA;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+
+.cardButton:hover {
+  gap: 12px;
+  color: #93C5FD;
+}
+
+.scrollHint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 60px;
+  color: #64748B;
+  font-size: 0.875rem;
+}
+
+.scrollArrows {
+  display: flex;
+  animation: scrollHint 1.5s infinite;
+}
+
+.scrollArrows svg:first-child {
+  opacity: 0.3;
+}
+
+@keyframes scrollHint {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 24px;
+  }
+  
+  .scrollContainer {
+    margin: 0 -24px;
+    padding: 0 24px;
+  }
+  
+  .card {
+    width: 300px;
+    min-height: 380px;
+  }
+}
