@@ -1,0 +1,534 @@
+/* ═══════════════════════════════════════════════
+   ABOUT MPS — The Trust Field
+
+   Asymmetric two-zone layout:
+   LEFT  — Story glass card + certification logos
+   RIGHT — 4 value pillars (horizontal card layout)
+
+   After the high-energy electromagnetic stats,
+   this section is calm, grounded, and human.
+   ═══════════════════════════════════════════════ */
+
+.section {
+  position: relative;
+  padding: 140px 0 120px;
+  background: linear-gradient(
+    180deg,
+    #020408 0%,
+    #0A1628 12%,
+    #0A1628 88%,
+    #020408 100%
+  );
+  overflow: hidden;
+}
+
+/* ─── BACKGROUND ATMOSPHERE ─── */
+
+.bgGlow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 700px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(37, 99, 235, 0.04) 0%,
+    rgba(96, 165, 250, 0.012) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(96, 165, 250, 0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 165, 250, 0.01) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 65% 50% at 50% 50%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 50% at 50% 50%, black 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ─── CONTAINER ─── */
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 64px);
+}
+
+/* ─── INTRO HEADER ─── */
+
+.intro {
+  max-width: 700px;
+  margin-bottom: 72px;
+}
+
+.label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(96, 165, 250, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+}
+
+.titleAccent {
+  background: linear-gradient(135deg, #2563EB 0%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: rgba(148, 163, 184, 0.8);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTENT GRID — Two-zone asymmetric layout
+   ═══════════════════════════════════════════════ */
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ─── LEFT: STORY CARD ─── */
+
+.storyCard {
+  height: 100%;
+  min-height: 480px;
+}
+
+.storyContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 32px;
+}
+
+.storyText {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(148, 163, 184, 0.75);
+  line-height: 1.8;
+}
+
+/* ─── CERTIFICATION TRUST BAR ─── */
+
+.certSection {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(96, 165, 250, 0.06);
+}
+
+.certTitle {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-bottom: 16px;
+}
+
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* ─── Certification Card ─── */
+
+.certCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.certCard:hover {
+  transform: translateY(-2px);
+}
+
+.certGlass {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  transition: background 0.4s ease,
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+}
+
+.certCard:hover .certGlass {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(96, 165, 250, 0.12);
+  box-shadow: 0 4px 20px -4px rgba(96, 165, 250, 0.08);
+}
+
+.certLogo {
+  position: relative;
+  z-index: 1;
+  max-width: 120px;
+  max-height: 48px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(0.85) brightness(0.9) opacity(0.55);
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.certCard:hover .certLogo {
+  filter: grayscale(0) brightness(1) opacity(1);
+}
+
+.certLabel {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: color 0.4s ease;
+}
+
+.certCard:hover .certLabel {
+  color: rgba(96, 165, 250, 0.6);
+}
+
+/* ─── RIGHT: VALUES COLUMN ─── */
+
+.valuesColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.valueCard {
+  width: 100%;
+}
+
+.valueInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* ── Icon wrapper with hover glow ── */
+.iconWrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.15) 0%,
+    rgba(96, 165, 250, 0.08) 100%
+  );
+  border-radius: 14px;
+  border: 1px solid rgba(96, 165, 250, 0.06);
+  transition:
+    background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s ease,
+    box-shadow 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Glow ring behind icon */
+.iconWrapper::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.12) 0%, transparent 70%);
+  opacity: 0;
+  filter: blur(6px);
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.valueCard:hover .iconWrapper {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.25) 0%,
+    rgba(96, 165, 250, 0.15) 100%
+  );
+  border-color: rgba(96, 165, 250, 0.15);
+  box-shadow: 0 4px 20px rgba(96, 165, 250, 0.08);
+  transform: scale(1.06);
+}
+
+.valueCard:hover .iconWrapper::after {
+  opacity: 1;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: #60A5FA;
+  transition: color 0.4s ease, filter 0.4s ease;
+}
+
+.icon > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.valueCard:hover .icon {
+  color: #93C5FD;
+  filter: drop-shadow(0 0 6px rgba(96, 165, 250, 0.25));
+}
+
+.valueMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.valueTitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #F8FAFC;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  transition: color 0.3s ease;
+}
+
+.valueCard:hover .valueTitle {
+  color: #FFFFFF;
+}
+
+.valueDescription {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.65);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 100px 0 80px;
+  }
+
+  .intro {
+    margin-bottom: 56px;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .storyCard {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0 60px;
+  }
+
+  .intro {
+    margin-bottom: 48px;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .storyCard {
+    min-height: auto;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .certLogo {
+    max-width: 80px;
+    max-height: 36px;
+  }
+
+  .certCard {
+    padding: 12px 8px;
+  }
+
+  .valueInner {
+    gap: 16px;
+  }
+
+  .iconWrapper {
+    width: 46px;
+    height: 46px;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .valueCard:hover .iconWrapper {
+    transform: none;
+  }
+
+  .iconWrapper::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 64px 0 48px;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .certLogo {
+    max-width: 90px;
+    max-height: 40px;
+  }
+
+  .valueTitle {
+    font-size: 1.05rem;
+  }
+
+  .valueDescription {
+    font-size: 0.8rem;
+  }
+}
+
+/* ─── TOUCH DEVICES ─── */
+
+@media (hover: none) and (pointer: coarse) {
+  .certCard:hover {
+    transform: none;
+  }
+
+  .certCard:hover .certGlass {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.04);
+    box-shadow: none;
+  }
+
+  .certCard:hover .certLogo {
+    filter: grayscale(0.85) brightness(0.9) opacity(0.55);
+  }
+
+  .certCard:hover .certLabel {
+    color: rgba(148, 163, 184, 0.3);
+  }
+
+  .valueCard:hover .iconWrapper {
+    background: linear-gradient(
+      135deg,
+      rgba(37, 99, 235, 0.15) 0%,
+      rgba(96, 165, 250, 0.08) 100%
+    );
+    border-color: rgba(96, 165, 250, 0.06);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .valueCard:hover .iconWrapper::after {
+    opacity: 0;
+  }
+
+  .valueCard:hover .icon {
+    color: #60A5FA;
+    filter: none;
+  }
+
+  .valueCard:hover .valueTitle {
+    color: #F8FAFC;
+  }
+}
+
+/* ─── FOCUS VISIBLE ─── */
+
+.certCard:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.6);
+  outline-offset: 3px;
+}
+
+.valueCard:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.6);
+  outline-offset: 3px;
+}
+
+/* ─── BACKDROP-FILTER FALLBACK ─── */
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .certGlass {
+    background: rgba(10, 22, 40, 0.85);
+  }
+}
+
+/* ─── REDUCED MOTION ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  .certCard,
+  .certGlass,
+  .certLogo,
+  .certLabel,
+  .iconWrapper,
+  .icon,
+  .valueTitle {
+    transition: none;
+  }
+
+  .iconWrapper::after {
+    display: none;
+  }
+
+  .bgGrid {
+    display: none;
+  }
+}

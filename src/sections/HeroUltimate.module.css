@@ -1,0 +1,1223 @@
+/* ═══════════════════════════════════════════════
+   HERO ULTIMATE — "FLOW"
+
+   Architecture v3: Piano Keys with 5-Layer Glass
+
+   Returns to the organic white+black key rhythm
+   that felt like "flow" — tall white keys with
+   shorter, darker keys nestled between them.
+   Variable heights create a living skyline.
+
+   Each key now has 5 material layers:
+   1. keyShell   — structure, shadow, border, 3D tilt
+   2. keyGlass   — frosted material + specular + depth
+   3. keyHighlight — top-edge light catch
+   4. keyCaustic  — internal light refraction streak
+   5. keyGlowSpot — cursor-tracked positional hotspot
+
+   Load sequence:
+   1. Darkness (0-0.3s)
+   2. Keys rise left→right wave (0.3-2.0s)
+   3. Content materializes (1.8s+)
+   ═══════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(
+    165deg,
+    #060b16 0%,
+    #0a1424 35%,
+    #0e1b33 60%,
+    #081220 100%
+  );
+  isolation: isolate;
+}
+
+/* ─── SVG FILTERS (hidden) ─── */
+
+.svgFilters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ─── SUBMERSION ENTRANCE SYSTEM ─── */
+
+.submersing {
+  filter: url(#submersion);
+}
+
+.surfaced {
+  filter: none;
+}
+
+/* Surface tension line — appears during submersion */
+.surfaceLine {
+  position: absolute;
+  top: 50%;
+  left: -5%;
+  right: -5%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(96, 165, 250, 0.15) 15%,
+    rgba(180, 210, 255, 0.6) 40%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(180, 210, 255, 0.6) 60%,
+    rgba(96, 165, 250, 0.15) 85%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 30px 8px rgba(96, 165, 250, 0.15),
+    0 0 80px 20px rgba(96, 165, 250, 0.06);
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Clarity pulse — brief brightness flash when surfacing completes */
+.clarityPulse {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(180, 210, 255, 0.4) 0%,
+    rgba(96, 165, 250, 0.1) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* ─── AMBIENT CURSOR GLOW ─── */
+
+.cursorGlow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(96, 165, 250, 0.04) 0%,
+    rgba(96, 165, 250, 0.015) 30%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* ─── KEYS CONTAINER ─── */
+
+.keysContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  will-change: transform, filter;
+}
+
+/* ─── AMBIENT ORBS ─── */
+
+.orbLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orb1 {
+  width: 65vw;
+  height: 65vw;
+  top: -25%;
+  left: -15%;
+  background: radial-gradient(
+    circle,
+    rgba(96, 165, 250, 0.07) 0%,
+    rgba(37, 99, 235, 0.025) 40%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  animation: orbDrift1 35s ease-in-out infinite;
+}
+
+.orb2 {
+  width: 45vw;
+  height: 45vw;
+  bottom: -15%;
+  right: -10%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.05) 0%,
+    rgba(96, 165, 250, 0.025) 50%,
+    transparent 70%
+  );
+  filter: blur(100px);
+  animation: orbDrift2 40s ease-in-out infinite;
+}
+
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(3%, 2%) scale(1.03); }
+  66% { transform: translate(-2%, -1%) scale(0.98); }
+}
+
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-3%, 4%) scale(1.05); }
+}
+
+/* ═══════════════════════════════════════════════
+   KEYS LAYER — the piano bed
+
+   flex with align-items: flex-end so keys grow
+   upward from the bottom. Black keys use negative
+   margins to tuck between whites.
+   ═══════════════════════════════════════════════ */
+
+.keysLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(4px, 0.6vw, 10px);
+  padding: 0 3%;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════
+   KEY — base class
+
+   Height driven by --key-height custom property.
+   Reveal animation is left-to-right wave with
+   liquid deceleration physics.
+   ═══════════════════════════════════════════════ */
+
+.key {
+  --glow: 0;
+  --glow-y: 0.5;
+
+  position: relative;
+  height: var(--key-height, 55%);
+  flex-shrink: 0;
+  opacity: 0;
+
+  animation:
+    keyFlow 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+    keyFloat var(--float-duration, 22s) ease-in-out infinite;
+  animation-delay:
+    var(--reveal-delay, 0.3s),
+    calc(var(--reveal-delay, 0.3s) + 2.4s);
+}
+
+/* ─── WHITE KEYS ─── */
+
+.keyWhite {
+  width: clamp(36px, 3.8vw, 68px);
+  z-index: 1;
+}
+
+/* ─── BLACK KEYS ─── */
+
+.keyBlack {
+  width: clamp(24px, 2.4vw, 42px);
+  z-index: 2;
+  margin-left: clamp(-14px, -1.4vw, -8px);
+  margin-right: clamp(-14px, -1.4vw, -8px);
+}
+
+/* ─── KEY FLOW REVEAL ──
+   Rising from below the fold with blur clearing
+   as the key decelerates — like looking through
+   rushing water that gradually stills.
+   ───────────────────── */
+
+@keyframes keyFlow {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(100vh * 0.6)) scaleY(1.08);
+    filter: blur(18px);
+  }
+  25% {
+    opacity: 0.35;
+    filter: blur(12px);
+  }
+  55% {
+    opacity: 0.8;
+    transform: translateY(12px) scaleY(1.01);
+    filter: blur(3px);
+  }
+  78% {
+    opacity: 0.95;
+    transform: translateY(-4px) scaleY(1);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes keyFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(var(--float-amount, -5px)); }
+}
+
+/* ═══════════════════════════════════════════════
+   KEY SHELL — outer structure
+
+   Carries the border, shadow, rounded corners,
+   and 3D tilt reaction to cursor proximity.
+   White and black keys get different treatments.
+   ═══════════════════════════════════════════════ */
+
+.keyShell {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  /* 3D response to cursor proximity */
+  transform:
+    perspective(800px)
+    rotateX(calc(var(--glow) * 3deg))
+    translateY(calc(var(--glow) * -2px));
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* White key shell */
+.keyWhite .keyShell {
+  border-radius: 5px 5px 16px 16px;
+
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.6),
+    0 12px 28px -4px rgba(0, 0, 0, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Black key shell — darker, sharper */
+.keyBlack .keyShell {
+  border-radius: 3px 3px 10px 10px;
+
+  box-shadow:
+    0 20px 50px -10px rgba(0, 0, 0, 0.8),
+    0 8px 20px -2px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* ═══════════════════════════════════════════════
+   KEY GLASS — the frosted material
+
+   White keys: bright frosted glass with
+   overhead light gradient. Black keys: deep
+   dark glass with subtle blue tinting.
+
+   backdrop-filter blurs the orb lights behind.
+   ═══════════════════════════════════════════════ */
+
+/* White key glass */
+.keyWhite .keyGlass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    180deg,
+    rgba(180, 210, 255, 0.14) 0%,
+    rgba(140, 180, 240, 0.06) 8%,
+    rgba(255, 255, 255, 0.02) 20%,
+    rgba(255, 255, 255, 0.0) 45%,
+    rgba(255, 255, 255, 0.01) 70%,
+    rgba(180, 215, 255, 0.04) 90%,
+    rgba(200, 225, 255, 0.07) 100%
+  );
+
+  /* Tier-aware: 20+ keys each with blur — biggest GPU cost on page */
+  backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.03));
+  -webkit-backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.03));
+}
+
+/* Black key glass — deeper, darker */
+.keyBlack .keyGlass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    180deg,
+    rgba(20, 30, 55, 0.7) 0%,
+    rgba(12, 18, 38, 0.5) 30%,
+    rgba(8, 14, 30, 0.55) 60%,
+    rgba(10, 16, 35, 0.65) 100%
+  );
+
+  backdrop-filter: var(--perf-backdrop, blur(16px) saturate(140%));
+  -webkit-backdrop-filter: var(--perf-backdrop, blur(16px) saturate(140%));
+}
+
+/* Glass specular — diagonal reflection across face */
+.keyWhite .keyGlass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.04) 15%,
+    transparent 35%,
+    transparent 65%,
+    rgba(255, 255, 255, 0.02) 85%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  pointer-events: none;
+}
+
+.keyBlack .keyGlass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Internal depth gradient — darker center = thickness */
+.keyWhite .keyGlass::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(8, 20, 50, 0.06) 30%,
+    rgba(8, 20, 50, 0.1) 50%,
+    rgba(8, 20, 50, 0.05) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════════════
+   KEY HIGHLIGHT — top edge light catch
+   ═══════════════════════════════════════════════ */
+
+.keyHighlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.keyWhite .keyHighlight {
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.35) 20%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.35) 80%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+}
+
+.keyBlack .keyHighlight {
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, 0.15) 25%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+}
+
+/* Soft glow beneath the highlight strip */
+.keyWhite .keyHighlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(200, 225, 255, 0.1) 0%,
+    rgba(200, 225, 255, 0.02) 40%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.keyBlack .keyHighlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(150, 190, 255, 0.06) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════
+   KEY CAUSTIC — internal light streak
+   ═══════════════════════════════════════════════ */
+
+.keyCaustic {
+  position: absolute;
+  top: 6px;
+  left: 3px;
+  width: 1.5px;
+  height: calc(100% - 24px);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.keyWhite .keyCaustic {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(200, 225, 255, 0.18) 15%,
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent 70%
+  );
+  opacity: 0.55;
+}
+
+.keyBlack .keyCaustic {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.06) 25%,
+    transparent 55%
+  );
+  opacity: 0.35;
+}
+
+/* ═══════════════════════════════════════════════
+   KEY GLOW SPOT — cursor-tracked hotspot
+
+   Vertical position driven by --glow-y (0-1),
+   intensity by --glow (0-1). Light pools where
+   the cursor is vertically within the key.
+   ═══════════════════════════════════════════════ */
+
+.keyGlowSpot {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: calc(var(--glow-y, 0.5) * 100% - 50px);
+  height: 100px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.keyWhite .keyGlowSpot {
+  background: radial-gradient(
+    ellipse 100% 80% at 50% 50%,
+    rgba(140, 200, 255, calc(0.22 * var(--glow, 0))) 0%,
+    rgba(100, 170, 255, calc(0.1 * var(--glow, 0))) 30%,
+    rgba(80, 150, 255, calc(0.03 * var(--glow, 0))) 60%,
+    transparent 100%
+  );
+}
+
+.keyBlack .keyGlowSpot {
+  height: 70px;
+  top: calc(var(--glow-y, 0.5) * 100% - 35px);
+  background: radial-gradient(
+    ellipse 100% 80% at 50% 50%,
+    rgba(80, 140, 255, calc(0.18 * var(--glow, 0))) 0%,
+    rgba(60, 120, 240, calc(0.08 * var(--glow, 0))) 40%,
+    transparent 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   GLOW STATE — cursor nearby
+
+   All layers respond when .glowing is active.
+   The --glow value (0-1) drives everything
+   continuously — no binary flip.
+   ═══════════════════════════════════════════════ */
+
+/* White key glow */
+.keyWhite.glowing .keyShell {
+  border-color: rgba(160, 210, 255, calc(0.12 + var(--glow) * 0.2));
+  border-top-color: rgba(255, 255, 255, calc(0.22 + var(--glow) * 0.45));
+
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.6),
+    0 12px 28px -4px rgba(0, 0, 0, 0.25),
+    0 0 calc(10px + 18px * var(--glow)) rgba(100, 180, 255, calc(0.08 * var(--glow))),
+    0 0 calc(25px + 35px * var(--glow)) rgba(80, 150, 255, calc(0.04 * var(--glow))),
+    inset 0 0 calc(18px * var(--glow)) rgba(140, 200, 255, calc(0.06 * var(--glow))),
+    inset 0 1px 0 rgba(255, 255, 255, calc(0.1 + var(--glow) * 0.12));
+}
+
+.keyWhite.glowing .keyGlass {
+  background: linear-gradient(
+    180deg,
+    rgba(180, 215, 255, calc(0.14 + var(--glow) * 0.08)) 0%,
+    rgba(140, 190, 250, calc(0.06 + var(--glow) * 0.05)) 8%,
+    rgba(255, 255, 255, calc(0.02 + var(--glow) * 0.025)) 20%,
+    rgba(255, 255, 255, calc(0.0 + var(--glow) * 0.015)) 45%,
+    rgba(255, 255, 255, calc(0.01 + var(--glow) * 0.015)) 70%,
+    rgba(180, 215, 255, calc(0.04 + var(--glow) * 0.05)) 90%,
+    rgba(200, 230, 255, calc(0.07 + var(--glow) * 0.06)) 100%
+  );
+  /* Glow state inherits base key's tier-aware blur —
+     no per-tick recalculation of backdrop-filter calc() */
+  backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.05));
+  -webkit-backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.05));
+}
+
+/* Black key glow */
+.keyBlack.glowing .keyShell {
+  border-color: rgba(100, 150, 255, calc(0.08 + var(--glow) * 0.2));
+  border-top-color: rgba(200, 225, 255, calc(0.14 + var(--glow) * 0.35));
+
+  box-shadow:
+    0 20px 50px -10px rgba(0, 0, 0, 0.8),
+    0 0 calc(8px + 15px * var(--glow)) rgba(60, 120, 255, calc(0.1 * var(--glow))),
+    inset 0 0 calc(12px * var(--glow)) rgba(100, 160, 255, calc(0.06 * var(--glow)));
+}
+
+.keyBlack.glowing .keyGlass {
+  background: linear-gradient(
+    180deg,
+    rgba(30, 45, 80, calc(0.7 + var(--glow) * 0.1)) 0%,
+    rgba(18, 28, 55, calc(0.5 + var(--glow) * 0.08)) 30%,
+    rgba(12, 22, 45, calc(0.55 + var(--glow) * 0.06)) 60%,
+    rgba(15, 25, 50, calc(0.65 + var(--glow) * 0.08)) 100%
+  );
+  backdrop-filter: var(--perf-backdrop, blur(16px) saturate(140%));
+  -webkit-backdrop-filter: var(--perf-backdrop, blur(16px) saturate(140%));
+}
+
+/* Shared glow states */
+.key.glowing .keyGlowSpot {
+  opacity: 1;
+}
+
+.key.glowing .keyHighlight {
+  filter: brightness(calc(1 + var(--glow) * 0.6));
+}
+
+.key.glowing .keyCaustic {
+  opacity: calc(0.55 + var(--glow) * 0.3);
+}
+
+.keyBlack.glowing .keyCaustic {
+  opacity: calc(0.35 + var(--glow) * 0.35);
+}
+
+/* ─── NOISE + FADE ─── */
+
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: overlay;
+}
+
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(
+    to top,
+    rgba(6, 11, 22, 1) 0%,
+    rgba(6, 11, 22, 0.7) 35%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTENT LAYER
+   ═══════════════════════════════════════════════ */
+
+.content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.content > * {
+  pointer-events: auto;
+}
+
+/* ═══════════════════════════════════════════════
+   TITLE BLOCK — the centered composition
+
+   Logo → separator → FLOW → descriptor →
+   capabilities → CTA → badge
+   ═══════════════════════════════════════════════ */
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ─── MPS LOGO ─── */
+
+.logoComposed {
+  margin-bottom: 0.75rem;
+}
+
+.logo {
+  width: clamp(120px, 14vw, 200px);
+  height: auto;
+  filter:
+    drop-shadow(0 2px 16px rgba(0, 0, 0, 0.4))
+    brightness(1.05);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo:hover {
+  transform: scale(1.03);
+  filter:
+    drop-shadow(0 4px 24px rgba(0, 0, 0, 0.5))
+    brightness(1.08);
+}
+
+/* ─── SEPARATOR ─── */
+
+.logoSeparator {
+  width: clamp(60px, 8vw, 120px);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(37, 99, 235, 0.5) 30%,
+    rgba(37, 99, 235, 0.6) 50%,
+    rgba(37, 99, 235, 0.5) 70%,
+    transparent 100%
+  );
+  margin-bottom: 0.75rem;
+  transform-origin: center;
+}
+
+/* ─── "FLOW" ─── */
+
+.flowTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(7rem, 18vw, 16rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    rgba(180, 210, 255, 0.75) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  filter: drop-shadow(0 0 60px rgba(96, 165, 250, 0.12));
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.flowChar {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+  background: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── DESCRIPTOR ─── */
+
+.descriptorRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 0.4rem;
+  margin-bottom: 2.5rem;
+}
+
+.descriptorLine {
+  display: block;
+  width: clamp(30px, 4vw, 60px);
+  height: 1px;
+  background: rgba(220, 38, 38, 0.45);
+}
+
+.descriptor {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.65rem);
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ─── CAPABILITIES ─── */
+
+.capabilities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 2.25rem;
+}
+
+.capItem {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(0.55rem, 0.7vw, 0.7rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+  transition: color 0.4s ease;
+}
+
+.capItem:hover {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.capDot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 clamp(0.6rem, 1.2vw, 1.5rem);
+  flex-shrink: 0;
+}
+
+/* ─── CTA ─── */
+
+.ctaWrapper {
+  margin-bottom: 2rem;
+}
+
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.015) 100%
+  );
+  backdrop-filter: var(--perf-backdrop-light, blur(10px));
+  -webkit-backdrop-filter: var(--perf-backdrop-light, blur(10px));
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.cta:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  box-shadow:
+    0 0 30px rgba(255, 255, 255, 0.05),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+.ctaText {
+  position: relative;
+  z-index: 1;
+}
+
+.ctaArrow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta:hover .ctaArrow {
+  transform: translateY(3px);
+}
+
+/* ─── BADGE ─── */
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.badgeLine {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+}
+
+.badgeText {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── SCROLL INDICATOR ─── */
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scrollTrack {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.scrollDot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .logo {
+    width: clamp(110px, 16vw, 170px);
+  }
+
+  .keysLayer {
+    gap: clamp(3px, 0.5vw, 8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 0 1.5rem;
+  }
+
+  .logo {
+    width: clamp(100px, 28vw, 150px);
+  }
+
+  .flowTitle {
+    font-size: clamp(5rem, 22vw, 8rem);
+  }
+
+  .descriptorRow {
+    gap: 0.75rem;
+  }
+
+  .descriptorLine {
+    width: 20px;
+  }
+
+  .descriptor {
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    white-space: normal;
+    text-align: center;
+  }
+
+  .logoSeparator {
+    width: 50px;
+  }
+
+  .capabilities {
+    gap: 0;
+    padding: 0 0.5rem;
+  }
+
+  .capItem {
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+  }
+
+  .capDot {
+    margin: 0 0.4rem;
+  }
+
+  .cta {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.7rem;
+  }
+
+  .keysLayer {
+    gap: 3px;
+    padding: 0 2%;
+  }
+
+  .keyWhite {
+    width: clamp(28px, 6vw, 44px);
+  }
+
+  .keyBlack {
+    width: clamp(18px, 4vw, 30px);
+    margin-left: clamp(-10px, -2vw, -6px);
+    margin-right: clamp(-10px, -2vw, -6px);
+  }
+
+  .scrollIndicator {
+    bottom: 1.5rem;
+  }
+
+  .cursorGlow {
+    display: none;
+  }
+
+  .badgeLine {
+    width: 24px;
+  }
+
+  .badgeText {
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+  }
+
+  /* Tier vars already handle mobile glass reduction */
+
+  .keyGlowSpot {
+    display: none;
+  }
+
+  .keyWhite .keyGlass::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    width: 90px;
+  }
+
+  .flowTitle {
+    letter-spacing: 0.03em;
+  }
+
+  .descriptorLine {
+    width: 14px;
+  }
+
+  .descriptorRow {
+    margin-bottom: 1.75rem;
+  }
+
+  .capabilities {
+    margin-bottom: 1.75rem;
+  }
+
+  .logoSeparator {
+    width: 40px;
+  }
+
+  .keysLayer {
+    gap: 2px;
+    padding: 0 1%;
+  }
+
+  .keyWhite {
+    width: clamp(22px, 8vw, 36px);
+  }
+
+  .keyBlack {
+    width: clamp(14px, 5vw, 24px);
+    margin-left: clamp(-8px, -2.5vw, -5px);
+    margin-right: clamp(-8px, -2.5vw, -5px);
+  }
+
+  /* Tier vars handle glass reduction for small screens */
+}
+
+/* ═══════════════════════════════════════════════
+   ACCESSIBILITY & PERFORMANCE
+   ═══════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    animation: keyRevealSimple 0.5s ease-out forwards !important;
+  }
+
+  .orb {
+    animation: none !important;
+  }
+
+  .scrollDot {
+    animation: none !important;
+    opacity: 0.6;
+  }
+
+  .cursorGlow {
+    display: none;
+  }
+
+  .keyShell {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .keyGlowSpot {
+    display: none;
+  }
+
+  @keyframes keyRevealSimple {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .cta:hover {
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .logo:hover {
+    transform: none;
+    filter: drop-shadow(0 2px 16px rgba(0, 0, 0, 0.4)) brightness(1.05);
+  }
+
+  .cursorGlow {
+    display: none;
+  }
+
+  .capItem:hover {
+    color: rgba(255, 255, 255, 0.28);
+  }
+
+  .keyGlowSpot {
+    display: none;
+  }
+
+  .keyShell {
+    transform: none !important;
+  }
+}

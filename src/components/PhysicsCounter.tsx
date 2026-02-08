@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import styles from './PhysicsCounter.module.css';
 
 interface PhysicsCounterProps {
@@ -13,54 +14,61 @@ interface PhysicsCounterProps {
 
 export const PhysicsCounter = ({
   end,
-  duration = 2000,
+  duration = 1200,
   suffix = '',
   prefix = '',
   className,
   label,
 }: PhysicsCounterProps) => {
+  const { prefersReducedMotion } = useDeviceCapability();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [displayValue, setDisplayValue] = useState(0);
-  
+
   useEffect(() => {
     if (!isInView) return;
 
+    // Reduced motion: jump to final value instantly
+    if (prefersReducedMotion) {
+      setDisplayValue(end);
+      return;
+    }
+
     const startTime = Date.now();
     let frameRef: number;
-    
-    // Spring physics parameters
-    const stiffness = 120;
-    const damping = 15;
-    
+
+    // Spring physics parameters - snappier with higher damping
+    const stiffness = 180;
+    const damping = 25;
+
     let currentValue = 0;
     let velocity = 0;
-    
+
     const animate = () => {
       const elapsed = Date.now() - startTime;
-      
+
       if (elapsed < duration) {
         // Ease-out progress
         const progress = 1 - Math.pow(1 - elapsed / duration, 3);
         const target = end * progress;
-        
+
         // Apply spring physics for overshoot effect
         const springForce = (target - currentValue) * (stiffness / 1000);
         const dampingForce = velocity * (damping / 1000);
-        
+
         velocity += springForce - dampingForce;
         currentValue += velocity;
-        
+
         setDisplayValue(Math.round(currentValue));
         frameRef = requestAnimationFrame(animate);
       } else {
         // Final spring settle
         const springForce = (end - currentValue) * (stiffness / 1000);
         const dampingForce = velocity * (damping / 1000);
-        
+
         velocity += springForce - dampingForce;
         currentValue += velocity;
-        
+
         if (Math.abs(end - currentValue) < 0.5 && Math.abs(velocity) < 0.1) {
           setDisplayValue(end);
         } else {
@@ -71,9 +79,9 @@ export const PhysicsCounter = ({
     };
 
     frameRef = requestAnimationFrame(animate);
-    
+
     return () => cancelAnimationFrame(frameRef);
-  }, [isInView, end, duration]);
+  }, [isInView, end, duration, prefersReducedMotion]);
 
   return (
     <motion.div

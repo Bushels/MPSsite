@@ -12,8 +12,8 @@ interface VelocityTextProps {
 export const VelocityText = ({
   children,
   className,
-  maxSkew = 15,
-  maxScale = 1.1,
+  maxSkew = 25,
+  maxScale = 1.15,
 }: VelocityTextProps) => {
   const [skew, setSkew] = useState(0);
   const [scaleX, setScaleX] = useState(1);
@@ -30,13 +30,13 @@ export const VelocityText = ({
     };
 
     const animate = () => {
-      // Decay velocity
-      velocityRef.current *= 0.9;
+      // Decay velocity more slowly for visible effect
+      velocityRef.current *= 0.85;
       
-      // Calculate effects
+      // Calculate effects with higher sensitivity
       const vel = velocityRef.current;
-      const newSkew = Math.max(-maxSkew, Math.min(maxSkew, vel * 0.5));
-      const newScaleX = 1 + Math.abs(vel) * 0.002 * (maxScale - 1);
+      const newSkew = Math.max(-maxSkew, Math.min(maxSkew, vel * 1.5));
+      const newScaleX = 1 + Math.abs(vel) * 0.008 * (maxScale - 1);
       
       setSkew(newSkew);
       setScaleX(Math.min(maxScale, newScaleX));

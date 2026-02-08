@@ -1,0 +1,482 @@
+/* ═══════════════════════════════════════════════
+   ELECTROMAGNETIC STATS — "Field Strength"
+
+   Two-phase interaction:
+   Phase A: EMP pulse radiates → stats activate sequentially
+   Phase B: Magnetic field lines go live + mouse interaction
+
+   The "magnitude" moment in the customer journey.
+   ═══════════════════════════════════════════════ */
+
+.section {
+  position: relative;
+  padding: 140px 0 160px;
+  background: linear-gradient(
+    180deg,
+    #020408 0%,
+    #040c1c 10%,
+    #051025 50%,
+    #040c1c 90%,
+    #020408 100%
+  );
+  overflow: hidden;
+}
+
+/* ─── BACKGROUND ATMOSPHERE ─── */
+
+.bgGlow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 700px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(37, 99, 235, 0.06) 0%,
+    rgba(96, 165, 250, 0.02) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(96, 165, 250, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 165, 250, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 65% 50% at 50% 50%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 50% at 50% 50%, black 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ─── HEADER ─── */
+
+.header {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 100px;
+  padding: 0 24px;
+}
+
+.label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(96, 165, 250, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.2rem);
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+}
+
+.titleAccent {
+  background: linear-gradient(135deg, #2563EB 0%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════
+   FIELD CONTAINER — Stat positions + SVG overlays
+   ═══════════════════════════════════════════════ */
+
+.fieldContainer {
+  position: relative;
+  max-width: 1100px;
+  height: 520px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ═══════════════════════════════════════════════
+   EMP WAVE
+   ═══════════════════════════════════════════════ */
+
+.empWave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
+  border-radius: 50%;
+  border: 2px solid rgba(96, 165, 250, 0.35);
+  background: radial-gradient(
+    circle,
+    rgba(96, 165, 250, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.empWaveSecondary {
+  border-width: 1px;
+  border-color: rgba(96, 165, 250, 0.18);
+  background: none;
+}
+
+/* ═══════════════════════════════════════════════
+   SVG OVERLAYS — Circuit Traces & Field Lines
+   ═══════════════════════════════════════════════ */
+
+.traceSvg,
+.fieldSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Circuit traces */
+.circuitTrace {
+  stroke: rgba(96, 165, 250, 0.25);
+  stroke-width: 0.4;
+  fill: none;
+  stroke-linecap: square;
+  filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.15));
+}
+
+.junction {
+  fill: rgba(96, 165, 250, 0.5);
+  stroke: rgba(96, 165, 250, 0.7);
+  stroke-width: 0.3;
+  filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.4));
+}
+
+/* Magnetic field lines */
+.fieldLine {
+  stroke: rgba(96, 165, 250, 0.18);
+  stroke-width: 0.35;
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 2 3;
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 0 3px rgba(96, 165, 250, 0.12));
+  animation: fieldFlow 4s linear infinite;
+}
+
+@keyframes fieldFlow {
+  to {
+    stroke-dashoffset: -5;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   STAT CARDS
+   ═══════════════════════════════════════════════ */
+
+.statCard {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: clamp(200px, 22vw, 280px);
+  padding: 36px 28px 32px;
+  border-radius: 20px;
+  overflow: visible;
+  z-index: 3;
+  text-align: center;
+  cursor: default;
+}
+
+/* Glass material */
+.cardGlass {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(
+    155deg,
+    rgba(10, 28, 60, 0.55) 0%,
+    rgba(5, 18, 42, 0.45) 100%
+  );
+  backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.03));
+  -webkit-backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.03));
+  transform: translateZ(0); /* Safari GPU composite */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-top-color: rgba(255, 255, 255, 0.12);
+  border-bottom-color: rgba(255, 255, 255, 0.02);
+  z-index: 0;
+  transition: border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statCardActive .cardGlass {
+  border-color: rgba(96, 165, 250, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 50px -10px rgba(96, 165, 250, 0.12),
+    0 20px 40px -12px rgba(0, 5, 20, 0.5);
+}
+
+/* Top shine */
+.cardShine {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 75%,
+    transparent
+  );
+  z-index: 3;
+  opacity: 0.4;
+  transition: opacity 0.5s ease;
+}
+
+.statCardActive .cardShine {
+  opacity: 1;
+}
+
+/* Content */
+.statContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.statNumber {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #F8FAFC;
+  text-shadow: 0 0 24px rgba(96, 165, 250, 0.25);
+  font-variant-numeric: tabular-nums;
+}
+
+.statSuffix {
+  font-size: 0.55em;
+  color: #60A5FA;
+  margin-left: 2px;
+}
+
+.statLabel {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(248, 250, 252, 0.8);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.statSublabel {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  font-style: italic;
+  color: rgba(148, 163, 184, 0.55);
+  letter-spacing: 0.01em;
+  margin-top: 6px;
+}
+
+/* ─── SPARK BURST ─── */
+
+.spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #60A5FA 0%, #2563EB 100%);
+  box-shadow: 0 0 8px rgba(96, 165, 250, 0.8);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ─── ACTIVATION GLOW RING ─── */
+
+.glowRing {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 100px 0 120px;
+  }
+
+  .header {
+    margin-bottom: 80px;
+  }
+
+  .fieldContainer {
+    height: 480px;
+  }
+
+  .statCard {
+    width: clamp(180px, 28vw, 260px);
+    padding: 28px 22px 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0 100px;
+  }
+
+  .header {
+    margin-bottom: 48px;
+  }
+
+  /* Switch to vertical stack layout */
+  .fieldContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    height: auto;
+    padding: 0 20px;
+  }
+
+  .statCard {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  /* Hide SVG overlays on mobile */
+  .traceSvg,
+  .fieldSvg {
+    display: none;
+  }
+
+  .empWave {
+    width: 200px;
+    height: 200px;
+    margin: -100px 0 0 -100px;
+  }
+
+  /* Tier vars already handle mobile blur reduction */
+
+  .statNumber {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 64px 0 80px;
+  }
+
+  .statCard {
+    max-width: 100%;
+    padding: 28px 20px 24px;
+  }
+
+  .statNumber {
+    font-size: 2.5rem;
+  }
+
+  .statLabel {
+    font-size: 0.85rem;
+  }
+}
+
+/* ─── TOUCH DEVICES ─── */
+
+@media (hover: none) and (pointer: coarse) {
+  .statCard {
+    /* Remove magnetic movement on touch */
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (max-width: 768px) {
+  .statCard {
+    transform: none !important;
+  }
+}
+
+/* ─── FOCUS VISIBLE ─── */
+
+.statCard:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.6);
+  outline-offset: 4px;
+}
+
+/* ─── BACKDROP-FILTER FALLBACK ─── */
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cardGlass {
+    background: linear-gradient(155deg, rgba(10, 28, 60, 0.88) 0%, rgba(5, 18, 42, 0.82) 100%);
+  }
+}
+
+/* ─── REDUCED MOTION ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  .statCard {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: translate(-50%, -50%) !important;
+    transition: none !important;
+  }
+
+  .empWave,
+  .empWaveSecondary {
+    display: none;
+  }
+
+  .spark {
+    display: none;
+  }
+
+  .glowRing {
+    display: none;
+  }
+
+  .fieldLine {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    opacity: 0.12;
+  }
+
+  .circuitTrace {
+    opacity: 0.15;
+  }
+
+  .cardGlass,
+  .cardShine {
+    transition: none !important;
+  }
+
+  .bgGrid {
+    display: none;
+  }
+}

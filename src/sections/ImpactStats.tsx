@@ -1,39 +1,83 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { PhysicsCounter } from '../components/PhysicsCounter';
 import styles from './ImpactStats.module.css';
 
 const stats = [
-  { end: 25, suffix: '+', label: 'Years of Excellence' },
+  { end: 20, suffix: '+', label: 'Years in the Field' },
   { end: 500, suffix: '+', label: 'Projects Delivered' },
-  { end: 1000, suffix: '+', label: 'Team Members' },
-  { end: 99, suffix: '%', label: 'Client Satisfaction' },
+  { end: 99, suffix: '%', label: 'Client Retention' },
+  { end: 24, suffix: '/7', label: 'Field Support' },
 ];
 
+/* ─── Animation Variants ─── */
+const headerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const slideUp = {
+  hidden: { opacity: 0, y: 30, filter: 'blur(6px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const cardStagger = {
+  hidden: { opacity: 0, y: 50, scale: 0.94 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.12,
+      type: 'spring',
+      stiffness: 40,
+      damping: 18,
+      mass: 1,
+    },
+  }),
+};
+
 export const ImpactStats = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Parallax on background glow
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const glowY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1, 0.9]);
+
   return (
-    <section id="impact" className={styles.section}>
+    <section id="impact" ref={sectionRef} className={styles.section}>
       <div className={styles.background}>
         <div className={styles.gridLines} />
-        <div className={styles.glow} />
+        <motion.div
+          className={styles.glow}
+          style={{ y: glowY, scale: glowScale }}
+        />
       </div>
 
-      <div className={styles.content}>
-        <motion.span
-          className={styles.label}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
+      <motion.div
+        className={styles.content}
+        variants={headerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-80px' }}
+      >
+        <motion.span className={styles.label} variants={slideUp}>
           Our Impact
         </motion.span>
-        
-        <motion.h2
-          className={styles.title}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-        >
+
+        <motion.h2 className={styles.title} variants={slideUp}>
           Numbers That Define <br />
           <span className={styles.titleAccent}>Our Commitment</span>
         </motion.h2>
@@ -43,10 +87,11 @@ export const ImpactStats = () => {
             <motion.div
               key={stat.label}
               className={styles.statCard}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.15 }}
+              variants={cardStagger}
+              custom={index}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
             >
               <PhysicsCounter
                 end={stat.end}
@@ -57,7 +102,7 @@ export const ImpactStats = () => {
             </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -2,39 +2,76 @@
   /* Colors - Deep Blue Metallic Theme */
   --color-void: #020408;
   --color-midnight: #051025;
-  
+
   --color-surface-glass: rgba(5, 20, 45, 0.4);
   --color-border-chrome: rgba(255, 255, 255, 0.2);
-  --color-border-glow: rgba(37, 99, 235, 0.5);
-  
+  --color-border-glow: rgba(96, 165, 250, 0.5);
+
   --color-text-primary: #F8FAFC;
   --color-text-secondary: #94A3B8;
-  
-  /* Accents */
+
+  /* Accents — Unified glow system (cyan-metal everywhere) */
   --color-cobalt: #2563EB;
   --color-cyan-metal: #60A5FA;
-  
-  /* Typography */
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  
+  --color-glow: rgba(96, 165, 250, 1);
+  --color-glow-soft: rgba(96, 165, 250, 0.3);
+  --color-glow-subtle: rgba(96, 165, 250, 0.08);
+
+  /* Typography - Premium Precision Symphony */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-heading: 'Bebas Neue', sans-serif;
+
   /* Spacing */
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
-  
+
   /* Effects */
   --blur-heavy: 40px;
   --shadow-deep: 0 20px 50px -10px rgba(0, 5, 20, 0.8);
-  --shadow-glow: 0 0 30px rgba(37, 99, 235, 0.3);
-  
+  --shadow-glow: 0 0 30px rgba(96, 165, 250, 0.3);
+
   --radius-card: 16px;
   --radius-button: 999px;
-  
+
   /* Z-Index */
   --z-background: -1;
   --z-card: 10;
   --z-nav: 100;
   --z-overlay: 1000;
+  --z-cursor: 9999;
+
+  /* ─── Performance Tier (set by useAdaptiveGlass) ─── */
+  /* These scale visual complexity based on device capability.
+     High:  Full glassmorphism — blur, saturate, brightness
+     Mid:   Reduced blur (10px), no saturate/brightness calc
+     Low:   Zero blur, solid semi-transparent backgrounds */
+  --perf-blur: 20px;
+  --perf-blur-heavy: 28px;
+  --perf-blur-light: 10px;
+  --perf-saturate: saturate(160%);
+  --perf-brightness: brightness(1.03);
+  --perf-glass-bg: rgba(5, 20, 45, 0.4);
+  --perf-glass-bg-solid: rgba(5, 20, 45, 0.82);
+  --perf-backdrop: blur(var(--perf-blur)) var(--perf-saturate) var(--perf-brightness);
+  --perf-backdrop-light: blur(var(--perf-blur-light)) var(--perf-saturate);
+
+  /* Adaptive Glass — Driven by useAdaptiveGlass hook */
+  --glass-scroll-depth: 0;
+  --glass-scroll-velocity: 0;
+  --glass-mouse-x: 0.5;
+  --glass-mouse-y: 0.5;
+  --glass-focus-intensity: 0;
+
+  /* Adaptive Glass Computed Properties */
+  /* Cards & surfaces respond to scroll depth: deeper = more frosted */
+  --adaptive-blur: calc(28px + 12px * var(--glass-scroll-depth));
+  --adaptive-saturate: calc(180% - 20% * var(--glass-scroll-depth));
+  --adaptive-brightness: calc(1.05 - 0.08 * var(--glass-scroll-depth));
+  /* Velocity clears glass momentarily (motion thins the material) */
+  --velocity-blur-reduction: calc(8px * var(--glass-scroll-velocity));
+  --adaptive-border-opacity: calc(0.08 + 0.12 * var(--glass-scroll-depth));
 }

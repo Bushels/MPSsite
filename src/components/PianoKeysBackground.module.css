@@ -1,0 +1,367 @@
+.container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient orbs layer */
+.orbLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orb1 {
+  width: 70vw;
+  height: 70vw;
+  top: -30%;
+  left: -20%;
+  background: radial-gradient(
+    circle,
+    rgba(96, 165, 250, 0.12) 0%,
+    rgba(37, 99, 235, 0.06) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  animation: orbDrift1 30s ease-in-out infinite;
+}
+
+.orb2 {
+  width: 50vw;
+  height: 50vw;
+  bottom: -20%;
+  right: -15%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.08) 0%,
+    rgba(96, 165, 250, 0.04) 50%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  animation: orbDrift2 35s ease-in-out infinite;
+}
+
+.orb3 {
+  width: 40vw;
+  height: 40vw;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 60%
+  );
+  filter: blur(50px);
+  animation: orbPulse 20s ease-in-out infinite;
+}
+
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(5%, 3%) scale(1.05); }
+  66% { transform: translate(-3%, -2%) scale(0.98); }
+}
+
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-4%, 5%) scale(1.08); }
+}
+
+@keyframes orbPulse {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+/* Piano keys layer */
+.keysLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(8px, 1.5vw, 24px);
+  padding: 0 5%;
+  perspective: 1000px; /* Enable 3D rotation for press effect */
+  z-index: 1;
+}
+
+/* Wrapper handles layout, reveal, and float animations */
+.key {
+  --glow: 0;
+  --float-offset: 0px;
+  
+  position: relative;
+  width: clamp(40px, 4vw, 70px);
+  height: var(--key-height, 50%);
+  flex-shrink: 0;
+  
+  /* Float animation */
+  transform: translateY(var(--float-offset));
+  animation: keyFloat var(--float-duration, 20s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  
+  /* Load animation */
+  opacity: 0;
+  animation: keyReveal 3s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+             keyFloat var(--float-duration, 20s) ease-in-out 3.5s infinite;
+  animation-delay: var(--reveal-delay, 0s), calc(var(--reveal-delay, 0s) + 3s);
+}
+
+/* Inner element handles all visuals and the "press" interaction */
+.keyInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-origin: top center; /* Pivot from top like real key */
+  
+  /* Premium thick glass effect */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,     /* Bright top edge */
+    rgba(255, 255, 255, 0.02) 20%,    /* Clear upper body */
+    rgba(255, 255, 255, 0.0) 60%,     /* Empty middle */
+    rgba(255, 255, 255, 0.04) 100%    /* Slight bottom accumulation */
+  );
+  
+  /* Heavy diffuse blur */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  /* Soft rounded shape */
+  border-radius: 6px 6px 20px 20px;
+  
+  /* Crystalline border handling */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.4); /* Catching top light */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Fainter bottom */
+  
+  /* Volumetric shadows */
+  box-shadow:
+    /* Deep ambient shadow */
+    0 40px 80px -20px rgba(0, 0, 0, 0.8),
+    /* Sharp proximity shadow */
+    0 4px 20px 0px rgba(0, 0, 0, 0.3),
+    /* Inner volume highlight (rim light) */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 10px 20px rgba(255, 255, 255, 0.05);
+  
+  /* Smooth transitions */
+  transition: 
+    background 0.1s ease,
+    box-shadow 0.1s ease,
+    border-color 0.1s ease,
+    backdrop-filter 0.1s ease,
+    transform 0.05s ease-out; /* Fast response for press */
+
+  /* The Press Effect: Rotate and dip based on glow/proximity */
+  transform: 
+    rotateX(calc(var(--glow) * 6deg)) 
+    translateY(calc(var(--glow) * 4px));
+}
+
+/* Glass surface gloss/reflection */
+.keyInner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 25%,
+    transparent 75%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Side reflection / Caustic edge */
+.keyInner::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 4px;
+  width: 2px;
+  height: calc(100% - 30px);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Enhanced interactive glow - Clears up the glass */
+.key.glowing .keyInner {
+  /* Brighter, clearer glass when touched */
+  backdrop-filter: blur(12px) saturate(200%); /* Clearer when glowing */
+  background: linear-gradient(
+    180deg,
+    rgba(200, 230, 255, calc(0.25 + var(--glow) * 0.15)) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    rgba(150, 210, 255, calc(0.05 + var(--glow) * 0.1)) 100%
+  );
+  
+  /* Neon-glass borders */
+  border-color: rgba(160, 210, 255, calc(0.4 + var(--glow) * 0.4));
+  border-top-color: rgba(255, 255, 255, 0.9); /* Brilliant top edge */
+  
+  /* Luminous emission */
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.8),
+    /* Outer cyan aura */
+    0 0 calc(20px + 30px * var(--glow)) rgba(60, 160, 255, calc(0.3 * var(--glow))),
+    /* Inner light volume */
+    inset 0 0 20px rgba(100, 200, 255, 0.2),
+    inset 0 0 calc(50px * var(--glow)) rgba(190, 230, 255, calc(0.2 * var(--glow)));
+}
+
+/* Black keys - dark obsidian/smoked glass */
+.keyBlack {
+  --key-height: 35%;
+  width: clamp(25px, 2.5vw, 45px);
+  z-index: 2;
+  margin: 0 -15px;
+  align-self: flex-end;
+  margin-bottom: calc(var(--key-height, 50%) * 0.3);
+}
+
+.keyBlack .keyInner {
+  background: linear-gradient(
+    180deg,
+    rgba(20, 25, 40, 0.7) 0%,
+    rgba(10, 15, 30, 0.5) 50%,
+    rgba(5, 10, 25, 0.6) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px 4px 12px 12px;
+  
+  box-shadow:
+    0 15px 30px -5px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.keyBlack .keyInner::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+}
+
+/* Glowing black key - Deep blue plasma */
+.keyBlack.glowing .keyInner {
+  background: linear-gradient(
+    180deg,
+    rgba(40, 60, 100, 0.8) 0%,
+    rgba(20, 40, 80, 0.6) 100%
+  );
+  border-color: rgba(100, 150, 255, 0.4);
+  box-shadow:
+    0 15px 30px -5px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(40, 100, 255, calc(0.2 * var(--glow)));
+}
+
+/* Key reveal animation - deliberate, graceful rise */
+@keyframes keyReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(120px) scale(0.95);
+    filter: blur(25px);
+  }
+  40% {
+    opacity: 0.6;
+    filter: blur(8px);
+  }
+  70% {
+    transform: translateY(10px) scale(1);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Subtle float animation */
+@keyframes keyFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(var(--float-amount, -8px));
+  }
+}
+
+/* Noise texture overlay */
+.noiseOverlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: overlay;
+}
+
+/* Gradient fade at bottom for content integration */
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(
+    to top,
+    rgba(2, 4, 8, 0.9) 0%,
+    rgba(2, 4, 8, 0.5) 40%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    animation: keyRevealSimple 0.5s ease-out forwards;
+  }
+  
+  .orb {
+    animation: none;
+  }
+  
+  @keyframes keyRevealSimple {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+/* Mobile optimization - fewer, simpler keys */
+@media (max-width: 768px) {
+  .key {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  .keysLayer {
+    gap: 6px;
+  }
+}

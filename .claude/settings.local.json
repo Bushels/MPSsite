@@ -1,7 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "mcp__mcp-registry__search_mcp_registry"
+      "mcp__mcp-registry__search_mcp_registry",
+      "Bash(git checkout:*)",
+      "Bash(npm run dev:*)",
+      "Bash(ls \"C:\\\\Users\\\\kyle\\\\MPS\\\\MPSsite\\\\public\"\" 2>nul && ls \"C:UserskyleMPSMPSsiteMPS Logo.png\" 2>nul || echo \"No public dir or logo \")",
+      "WebFetch(domain:mpsgroup.ca)",
+      "Bash(ls -la \"C:\\\\Users\\\\kyle\\\\.claude\"\" 2>/dev/null || echo \"Directory not found \")",
+      "Bash(dir \"%USERPROFILE%\\\\.claude\"\" 2>nul || echo \"Not found with dir \")",
+      "Bash(npm install:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(python:*)",
+      "WebFetch(domain:maps.app.goo.gl)",
+      "Bash(npm run build:*)",
+      "Bash(Select-String '@keyframes')",
+      "Bash(done)",
+      "Bash(wc:*)",
+      "WebFetch(domain:dev.to)"
     ]
   }
 }

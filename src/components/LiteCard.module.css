@@ -1,0 +1,126 @@
+/* ═══════════════════════════════════════════════
+   LITE CARD — Lightweight Glass Surface
+
+   Same visual DNA as AmbientCard but zero JS overhead:
+   - No mouse-tracked light (CSS hover glow instead)
+   - No proximity state / global listeners
+   - Simplified to 2 decorative layers (vs 5)
+   - Reduced backdrop-filter complexity
+
+   For mass-rendered contexts (8+ cards in a grid).
+   ═══════════════════════════════════════════════ */
+
+.card {
+  position: relative;
+  background: var(--perf-glass-bg, rgba(5, 20, 45, 0.4));
+  border-radius: 20px;
+  overflow: hidden;
+
+  /* Tier-aware backdrop — scales with device capability via --perf-* vars */
+  backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.03));
+  -webkit-backdrop-filter: var(--perf-backdrop, blur(20px) saturate(160%) brightness(1.03));
+
+  /* Multi-tone border */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(255, 255, 255, 0.15);
+  border-bottom-color: rgba(255, 255, 255, 0.03);
+
+  /* Simplified shadow (2 layers vs 3) */
+  box-shadow:
+    0 16px 40px -12px rgba(0, 5, 20, 0.5),
+    0 4px 12px rgba(0, 5, 20, 0.2);
+
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 50px -15px rgba(0, 5, 20, 0.55),
+    0 8px 20px rgba(0, 5, 20, 0.25),
+    0 0 30px -10px rgba(96, 165, 250, 0.06);
+  border-color: rgba(96, 165, 250, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Layer 1: CSS-only hover glow (no JS mouse tracking) */
+.ambientLight {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 30%,
+    var(--glow-color, rgba(96, 165, 250, 0.4)) 0%,
+    transparent 65%
+  );
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover .ambientLight {
+  opacity: 0.35;
+}
+
+/* Layer 2: Specular reflection (same as AmbientCard) */
+.reflectiveEdge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 35%,
+    transparent 65%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Gradient border overlay (top-lit) */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.03) 30%,
+    transparent 60%
+  );
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 10;
+  padding: 32px;
+}
+
+/* Touch device — tier vars already handle blur reduction; just disable hover lift */
+@media (hover: none) {
+  .card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover {
+    transition: none;
+    transform: none;
+  }
+}
