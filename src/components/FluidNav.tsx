@@ -19,28 +19,42 @@ export const FluidNav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
+    // Initial check for viewport width
+    const checkMobile = () => window.innerWidth <= 768;
+    
+    // On mobile, show nav immediately
+    if (checkMobile()) {
+      setIsVisible(true);
+    }
 
     const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
+      const currentScrollY = window.scrollY;
+      const isMobile = checkMobile();
 
-      requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY;
-
+      if (isMobile) {
+        // Force visible on mobile
+        setIsVisible(true);
+      } else {
+        // Standard scroll-reactive for desktop
         if (currentScrollY > 200) {
           setIsVisible(true);
         } else if (currentScrollY < 80) {
           setIsVisible(false);
           setMobileOpen(false);
         }
-
-        ticking = false;
-      });
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll); // Re-check on resize
+    
+    // Initial call to set state correctly
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   const handleNavClick = () => {
@@ -163,26 +177,6 @@ export const FluidNav = () => {
                       </a>
                     </motion.li>
                   ))}
-                  <motion.li
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      delay: 0.05 + navItems.length * 0.06,
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                  >
-                    <a
-                      href="#contact"
-                      className={`${styles.mobileLink} ${styles.mobileLinkCta}`}
-                      onClick={handleNavClick}
-                    >
-                      <span className={styles.beacon}>
-                        <span className={styles.beaconDot} />
-                      </span>
-                      Let's Talk
-                    </a>
-                  </motion.li>
                 </ul>
               </motion.div>
             )}
