@@ -55,11 +55,11 @@ const services: Service[] = [
   },
   {
     id: 'modular',
-    title: 'Modular Assembly',
-    subtitle: 'Shop-Built Efficiency',
+    title: 'Modular Fabrication & Assembly',
+    subtitle: 'On-Site & Off-Site Execution',
     description:
-      'Complete modular packages built in-shop for efficient field deployment. Reduce site time by half while increasing quality control.',
-    stat: { value: '50%', label: 'Faster' },
+      'Precision modular systems fabricated at our Pierceland facility or assembled directly on your lease site. We adapt our workflow to your project\'s specific logistical needs.',
+    stat: { value: 'VERSATILE', label: 'Deployment' },
     Visual: ModularVisual,
   },
   {
