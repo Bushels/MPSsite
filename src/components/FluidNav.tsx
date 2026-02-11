@@ -6,7 +6,7 @@ import styles from './FluidNav.module.css';
 
 const navItems = [
   { label: 'Services', href: '#services' },
-  { label: 'Products', href: '#impact' },
+  { label: 'Products', href: '#downhole' },
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
   { label: 'Contact', href: '#contact' },

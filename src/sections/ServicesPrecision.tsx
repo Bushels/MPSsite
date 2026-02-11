@@ -72,15 +72,6 @@ const services: Service[] = [
     Visual: MachiningVisual,
   },
   {
-    id: 'downhole',
-    title: 'Downhole Tools',
-    subtitle: 'Below-Surface Innovation',
-    description:
-      'Sand control tools and monitoring solutions — our newest division, bringing surface precision underground to the wellbore.',
-    stat: { value: 'NEW', label: 'Division' },
-    Visual: DownholeVisual,
-  },
-  {
     id: 'storage',
     title: 'Pipe Storage',
     subtitle: 'Secured Yard & Logistics',
@@ -88,6 +79,15 @@ const services: Service[] = [
       'MPS is situated on 136 acres of secured, organized pipe storage — one of Western Canada\'s largest independent yards. Full inventory tracking, 24/7 monitored access, and direct field dispatch.',
     stat: { value: '136', label: 'Acres' },
     Visual: PipeStorageVisual,
+  },
+  {
+    id: 'downhole',
+    title: 'Downhole Tools',
+    subtitle: 'Below-Surface Innovation',
+    description:
+      'Sand control tools and monitoring solutions — our newest division, bringing surface precision underground to the wellbore.',
+    stat: { value: 'NEW', label: 'Division' },
+    Visual: DownholeVisual,
   },
 ];
 
@@ -234,6 +234,7 @@ export const ServicesPrecision = () => {
           return (
             <motion.div
               key={service.id}
+              id={service.id}
               className={`${styles.tile} ${styles[`tile${index}`]}`}
               variants={tileReveal}
               custom={index}
