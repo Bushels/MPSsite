@@ -302,20 +302,26 @@ export const ContactBeacon = () => {
             <motion.div variants={panelItem}>
               <LiteCard className={styles.contactCard}>
                 <div className={styles.contactRow}>
-                  <span className={styles.contactPrefix}>ADDR</span>
+                  <span className={styles.contactPrefix}>PHYS</span>
                   <span className={styles.contactDetail}>
-                    Box 489, Pierceland, SK S0M 2K0
+                    E Range Rd 3264, Highway 55, Pierceland, SK S0M 2K0
+                  </span>
+                </div>
+                <div className={styles.contactRow}>
+                  <span className={styles.contactPrefix}>MAIL</span>
+                  <span className={styles.contactDetail}>
+                    PO Box 1230, Cold Lake, AB T9M 1P3
                   </span>
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactPrefix}>TEL</span>
-                  <a href="tel:+1-306-839-4955" className={styles.contactLink}>
-                    306-839-4955
+                  <a href="tel:+1-780-594-8100" className={styles.contactLink}>
+                    (780) 594-8100
                   </a>
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactPrefix}>FAX</span>
-                  <span className={styles.contactDetail}>306-839-4440</span>
+                  <span className={styles.contactDetail}>(780) 638-6029</span>
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactPrefix}>COM</span>
@@ -343,8 +349,8 @@ export const ContactBeacon = () => {
                     <span className={styles.opsLabel}>Direct Access</span>
                   </div>
                   <div className={styles.opsItem}>
-                    <span className={styles.opsValue}>200+</span>
-                    <span className={styles.opsLabel}>km Service Radius</span>
+                    <span className={styles.opsValue}>WCSB</span>
+                    <span className={styles.opsLabel}>Western Canadian Sedimentary Basin</span>
                   </div>
                 </div>
               </LiteCard>
