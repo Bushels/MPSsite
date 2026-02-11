@@ -67,6 +67,7 @@ export const HeroUltimate = () => {
   const keysY = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const keysScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.96]);
   const keysBlur = useTransform(scrollYProgress, [0, 0.4], [0, 4]);
+  const keysBlurFilter = useTransform(keysBlur, (v) => `blur(${v}px)`);
 
   const smoothX = useSpring(cursorX, { stiffness: 30, damping: 25 });
   const smoothY = useSpring(cursorY, { stiffness: 30, damping: 25 });
@@ -199,11 +200,11 @@ export const HeroUltimate = () => {
       return () => clearTimeout(timer);
     }
 
-    // Submersion parameters
-    const startScale = tier === 'mid' ? 25 : 40; // displacement intensity
+    // Submersion parameters — tuned for prestige without testing patience
+    const startScale = tier === 'mid' ? 25 : 35;
     const startFreq = 0.015;
     const endFreq = 0.003;
-    const duration = tier === 'mid' ? 2000 : 2800; // ms
+    const duration = tier === 'mid' ? 1400 : 1800; // ms
     const startTime = performance.now();
     let rafId: number;
 
@@ -350,7 +351,7 @@ export const HeroUltimate = () => {
         style={{
           y: keysY,
           scale: keysScale,
-          filter: useTransform(keysBlur, (v) => `blur(${v}px)`),
+          filter: keysBlurFilter,
         }}
       >
         <div className={styles.orbLayer}>
@@ -445,7 +446,8 @@ export const HeroUltimate = () => {
               <motion.div variants={lineGrow} className={styles.logoSeparator} />
 
               {/* Per-character FLOW title with spring physics */}
-              <motion.h1 className={styles.flowTitle} style={{ perspective: 600 }}>
+              <h1 className={styles.srOnly}>MPS Group — Industrial Fabrication & Field Services</h1>
+              <motion.div className={styles.flowTitle} style={{ perspective: 600 }} aria-hidden="true" role="presentation">
                 {FLOW_CHARS.map((char, i) => (
                   <motion.span
                     key={char}
@@ -458,7 +460,7 @@ export const HeroUltimate = () => {
                     {char}
                   </motion.span>
                 ))}
-              </motion.h1>
+              </motion.div>
 
               <motion.div variants={fadeUp} className={styles.descriptorRow}>
                 <span className={styles.descriptorLine} />

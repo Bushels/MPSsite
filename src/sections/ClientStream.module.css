@@ -186,9 +186,7 @@
     rgba(15, 30, 60, 0.5) 0%,
     rgba(8, 20, 45, 0.4) 100%
   );
-  /* Tier-aware: 36 cards animate simultaneously, so use lightest blur */
-  backdrop-filter: var(--perf-backdrop-light, blur(10px) saturate(150%));
-  -webkit-backdrop-filter: var(--perf-backdrop-light, blur(10px) saturate(150%));
+  /* Removed backdrop-filter — 24-36 cards animate continuously, too expensive */
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-top-color: rgba(255, 255, 255, 0.10);
   border-bottom-color: rgba(255, 255, 255, 0.02);

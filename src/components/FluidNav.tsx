@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Products', href: '#impact' },
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export const FluidNav = () => {

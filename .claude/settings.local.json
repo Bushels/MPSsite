@@ -16,7 +16,8 @@
       "Bash(Select-String '@keyframes')",
       "Bash(done)",
       "Bash(wc:*)",
-      "WebFetch(domain:dev.to)"
+      "WebFetch(domain:dev.to)",
+      "Bash(git -C \"C:\\\\Users\\\\kyle\\\\MPS\\\\MPSsite\" log --oneline --all)"
     ]
   }
 }

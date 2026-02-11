@@ -1,0 +1,363 @@
+/* ═══════════════════════════════════════════════
+   CERTIFICATIONS — Safety & Compliance
+
+   Showcases MPS Group's industry certifications.
+   Sits between ElectromagneticStats and AboutMPS.
+   Premium dark glass aesthetic with shield icons.
+   ═══════════════════════════════════════════════ */
+
+.section {
+  position: relative;
+  padding: 140px 0 120px;
+  background: linear-gradient(
+    180deg,
+    #020408 0%,
+    #061020 12%,
+    #071228 50%,
+    #061020 88%,
+    #020408 100%
+  );
+  overflow: hidden;
+}
+
+/* ─── BACKGROUND ATMOSPHERE ─── */
+
+.bgGlow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(37, 99, 235, 0.05) 0%,
+    rgba(96, 165, 250, 0.015) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(96, 165, 250, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 165, 250, 0.012) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 65% 50% at 50% 50%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 50% at 50% 50%, black 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ─── CONTAINER ─── */
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 64px);
+}
+
+/* ─── HEADER ─── */
+
+.header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 72px;
+}
+
+.label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(96, 165, 250, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 400;
+  color: var(--color-text-primary);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+}
+
+.titleAccent {
+  background: linear-gradient(135deg, #2563EB 0%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: rgba(148, 163, 184, 0.7);
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════
+   CERTIFICATION GRID
+   ═══════════════════════════════════════════════ */
+
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ─── CARD INNER ─── */
+
+.certCardInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  padding: 12px 4px 4px;
+}
+
+/* ─── SHIELD ICON ─── */
+
+.shieldWrapper {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.12) 0%,
+    rgba(96, 165, 250, 0.06) 100%
+  );
+  border-radius: 18px;
+  border: 1px solid rgba(96, 165, 250, 0.08);
+  transition:
+    background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s ease,
+    box-shadow 0.5s ease,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shieldWrapper::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 24px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  filter: blur(8px);
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.certCardInner:hover .shieldWrapper {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.22) 0%,
+    rgba(96, 165, 250, 0.12) 100%
+  );
+  border-color: rgba(96, 165, 250, 0.18);
+  box-shadow: 0 4px 24px rgba(96, 165, 250, 0.1);
+  transform: scale(1.06);
+}
+
+.certCardInner:hover .shieldWrapper::after {
+  opacity: 1;
+}
+
+.shieldIcon {
+  width: 32px;
+  height: 32px;
+  color: #60A5FA;
+  transition: color 0.4s ease, filter 0.4s ease;
+}
+
+.shieldIcon > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.certCardInner:hover .shieldIcon {
+  color: #93C5FD;
+  filter: drop-shadow(0 0 6px rgba(96, 165, 250, 0.3));
+}
+
+/* ─── TEXT ─── */
+
+.certMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.certName {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #F8FAFC;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+
+.certCardInner:hover .certName {
+  color: #FFFFFF;
+}
+
+.certFullName {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(96, 165, 250, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.certDescription {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.6);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 100px 0 80px;
+  }
+
+  .header {
+    margin-bottom: 56px;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0 60px;
+  }
+
+  .header {
+    margin-bottom: 48px;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .shieldWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .shieldIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .certCardInner:hover .shieldWrapper {
+    transform: none;
+  }
+
+  .shieldWrapper::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 64px 0 48px;
+  }
+
+  .certGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .certName {
+    font-size: 1.1rem;
+  }
+
+  .certDescription {
+    font-size: 0.8rem;
+  }
+}
+
+/* ─── TOUCH DEVICES ─── */
+
+@media (hover: none) and (pointer: coarse) {
+  .certCardInner:hover .shieldWrapper {
+    background: linear-gradient(
+      135deg,
+      rgba(37, 99, 235, 0.12) 0%,
+      rgba(96, 165, 250, 0.06) 100%
+    );
+    border-color: rgba(96, 165, 250, 0.08);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .certCardInner:hover .shieldWrapper::after {
+    opacity: 0;
+  }
+
+  .certCardInner:hover .shieldIcon {
+    color: #60A5FA;
+    filter: none;
+  }
+
+  .certCardInner:hover .certName {
+    color: #F8FAFC;
+  }
+}
+
+/* ─── FOCUS VISIBLE ─── */
+
+.certCardInner:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.6);
+  outline-offset: 3px;
+}
+
+/* ─── BACKDROP-FILTER FALLBACK ─── */
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .certCardInner {
+    background: rgba(10, 22, 40, 0.85);
+  }
+}
+
+/* ─── REDUCED MOTION ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  .shieldWrapper,
+  .shieldIcon,
+  .certName {
+    transition: none;
+  }
+
+  .shieldWrapper::after {
+    display: none;
+  }
+
+  .bgGrid {
+    display: none;
+  }
+}

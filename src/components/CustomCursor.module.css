@@ -111,11 +111,10 @@
   opacity: 0;
 }
 
-/* Hide default cursor site-wide on desktop */
+/* Hide default cursor on desktop — body only, no !important, preserves form element cursors */
 @media (hover: hover) and (pointer: fine) {
-  :global(body),
-  :global(body *) {
-    cursor: none !important;
+  :global(body) {
+    cursor: none;
   }
 }
 

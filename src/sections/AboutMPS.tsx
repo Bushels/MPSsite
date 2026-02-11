@@ -1,5 +1,5 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { AmbientCard } from '../components/AmbientCard';
 import { LiteCard } from '../components/LiteCard';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
@@ -18,36 +18,6 @@ import styles from './AboutMPS.module.css';
    Certification logos start desaturated and reveal to full color
    on hover with a subtle magnetic micro-shift effect.
    ═══════════════════════════════════════════════════════════════ */
-
-/* ─── Certifications ─── */
-interface Certification {
-  name: string;
-  fullName: string;
-  logo: string;
-}
-
-const certifications: Certification[] = [
-  {
-    name: 'ACSA',
-    fullName: 'Alberta Construction Safety Association',
-    logo: '/logos/Certifications/ACSA.png',
-  },
-  {
-    name: 'CanQual',
-    fullName: 'CanQual Network',
-    logo: '/logos/Certifications/CanQual-Network-Logo.jpg',
-  },
-  {
-    name: 'ComplyWorks',
-    fullName: 'ComplyWorks — a Veriforce Company',
-    logo: '/logos/Certifications/CW-logo-tag-2-sm-min.png',
-  },
-  {
-    name: 'ISN',
-    fullName: 'ISNetworld',
-    logo: '/logos/Certifications/ISN.png',
-  },
-];
 
 /* ─── Values ─── */
 interface Value {
@@ -176,103 +146,13 @@ const valueCardStagger = {
   }),
 };
 
-const certLogoStagger = {
-  hidden: { opacity: 0, scale: 0.85 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: 0.5 + i * 0.12,
-      duration: 0.6,
-      ease: EASE,
-    },
-  }),
-};
-
-/* ─── Magnetic Cert Logo ─── */
-const CertLogo = ({
-  cert,
-  index,
-  mousePos,
-  isHighTier,
-}: {
-  cert: Certification;
-  index: number;
-  mousePos: { x: number; y: number };
-  isHighTier: boolean;
-}) => {
-  const logoRef = useRef<HTMLDivElement>(null);
-
-  // Use motion values + effect instead of DOM access during render
-  const motionX = useMotionValue(0);
-  const motionY = useMotionValue(0);
-  const springX = useSpring(motionX, { stiffness: 120, damping: 18 });
-  const springY = useSpring(motionY, { stiffness: 120, damping: 18 });
-
-  useEffect(() => {
-    if (!isHighTier || !logoRef.current) return;
-    const rect = logoRef.current.getBoundingClientRect();
-    const logoCX = rect.left + rect.width / 2;
-    const logoCY = rect.top + rect.height / 2;
-    const dx = mousePos.x - logoCX;
-    const dy = mousePos.y - logoCY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    const maxDist = 350;
-    const strength = Math.max(0, 1 - dist / maxDist) * 6;
-    motionX.set((dx / (dist || 1)) * strength);
-    motionY.set((dy / (dist || 1)) * strength);
-  }, [mousePos.x, mousePos.y, isHighTier, motionX, motionY]);
-
-  return (
-    <motion.div
-      ref={logoRef}
-      className={styles.certCard}
-      variants={certLogoStagger}
-      custom={index}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-40px' }}
-      style={isHighTier ? { x: springX, y: springY } : undefined}
-      role="img"
-      aria-label={`${cert.fullName} — Certified Member`}
-      tabIndex={0}
-    >
-      <div className={styles.certGlass} />
-      <img
-        src={cert.logo}
-        alt={`${cert.fullName} — Certified Member`}
-        className={styles.certLogo}
-        loading="lazy"
-      />
-      <span className={styles.certLabel}>{cert.name}</span>
-    </motion.div>
-  );
-};
 
 /* ═══════════════════════════════════════════════════════════════
    MAIN COMPONENT
    ═══════════════════════════════════════════════════════════════ */
 export const AboutMPS = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const { prefersReducedMotion, tier } = useDeviceCapability();
-  const isHighTier = tier === 'high';
-
-  // Mouse tracking for magnetic cert logos
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const lastCallRef = useRef(0);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const now = performance.now();
-    if (now - lastCallRef.current < 16) return;
-    lastCallRef.current = now;
-    setMousePos({ x: e.clientX, y: e.clientY });
-  }, []);
-
-  useEffect(() => {
-    if (!isHighTier || prefersReducedMotion) return;
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [handleMouseMove, isHighTier, prefersReducedMotion]);
+  const { prefersReducedMotion } = useDeviceCapability();
 
   // Subtle parallax on intro text
   const { scrollYProgress } = useScroll({
@@ -335,23 +215,6 @@ export const AboutMPS = () => {
                   services.
                 </p>
 
-                {/* Certification Trust Bar */}
-                <div className={styles.certSection}>
-                  <span className={styles.certTitle}>
-                    Verified Certifications
-                  </span>
-                  <div className={styles.certGrid}>
-                    {certifications.map((cert, i) => (
-                      <CertLogo
-                        key={cert.name}
-                        cert={cert}
-                        index={i}
-                        mousePos={mousePos}
-                        isHighTier={isHighTier && !prefersReducedMotion}
-                      />
-                    ))}
-                  </div>
-                </div>
               </div>
             </AmbientCard>
           </motion.div>
