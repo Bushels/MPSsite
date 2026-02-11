@@ -65,10 +65,10 @@ const services: Service[] = [
   {
     id: 'machining',
     title: 'Machining',
-    subtitle: 'Tight-Tolerance Precision',
+    subtitle: 'Mill & Lathe Services',
     description:
-      'Precision CNC and manual machining for custom components, repairs, and tight-tolerance downhole parts. Thousandth-of-an-inch accuracy.',
-    stat: { value: '±0.001"', label: 'Tolerance' },
+      'Precision CNC and manual machining for custom components, repairs, and downhole parts. Equipped to handle technical requirements with professional accuracy.',
+    stat: { value: 'PRO', label: 'Machining' },
     Visual: MachiningVisual,
   },
   {
