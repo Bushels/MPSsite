@@ -336,7 +336,10 @@
   }
 
   .contactBtn {
-    display: none;
+    padding: 8px 14px 8px 10px;
+    font-size: 0.75rem;
+    gap: 7px;
+    margin-right: 4px;
   }
 
   .hamburger {
@@ -359,6 +362,16 @@
 
   .logo {
     height: 24px;
+  }
+
+  .contactBtn {
+    padding: 7px 12px 7px 9px;
+    font-size: 0.7rem;
+    gap: 6px;
+  }
+
+  .contactArrow {
+    display: none;
   }
 }
 

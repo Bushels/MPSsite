@@ -813,6 +813,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Prevent FOUC on mobile — Framer Motion overrides with inline styles */
+  opacity: 0;
 }
 
 /* ─── DESCRIPTOR ─── */
