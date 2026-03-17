@@ -2,6 +2,12 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import styles from './ClientStream.module.css';
+import cenovusLogo from '../assets/client-logos/2021-CVE-Logo-RGB.png';
+import canadianNaturalLogo from '../assets/client-logos/Canadian_Natural_Logo.svg';
+import strathconaLogo from '../assets/client-logos/SCR.TO_BIG.svg.svg';
+import obsidianLogo from '../assets/client-logos/Obsidian_Energy_Logo_2022.svg';
+import athabascaLogo from '../assets/client-logos/Athabasca_Oil_Corporation_Logo.svg';
+import connacherLogo from '../assets/client-logos/Connacher_Oil_and_Gas_Logo.svg';
 
 /**
  * ClientStream — Floating Conversation Cards
@@ -24,15 +30,64 @@ interface Client {
   logo: string;
   /** Optional size hint — 'sm' for shorter/icon logos, 'lg' for wider wordmarks */
   size?: 'sm' | 'md' | 'lg';
+  hoverHalo: string;
+  hoverGlow: string;
+  hoverBrightness?: number;
+  logoShiftX?: string;
+  logoShiftY?: string;
 }
 
 const clients: Client[] = [
-  { name: 'Cenovus Energy', logo: '/logos/2021-CVE-Logo-RGB.png', size: 'lg' },
-  { name: 'Canadian Natural', logo: '/logos/Canadian_Natural_Logo.svg', size: 'lg' },
-  { name: 'Strathcona Resources', logo: '/logos/Strathcona_Resources_Ltd__Strathcona_Resources_Ltd__Announces_In.jpg', size: 'lg' },
-  { name: 'Obsidian Energy', logo: '/logos/Obsidian_Energy_Logo,_2022.svg', size: 'md' },
-  { name: 'Athabasca Oil', logo: '/logos/Athabasca_Oil_Corporation_Logo.svg', size: 'md' },
-  { name: 'Connacher Oil and Gas', logo: '/logos/Connacher_Oil_and_Gas_Logo.svg', size: 'md' },
+  {
+    name: 'Cenovus Energy',
+    logo: cenovusLogo,
+    size: 'lg',
+    hoverHalo: 'rgba(112, 125, 220, 0.18)',
+    hoverGlow: 'rgba(112, 125, 220, 0.24)',
+    hoverBrightness: 1.08,
+  },
+  {
+    name: 'Canadian Natural',
+    logo: canadianNaturalLogo,
+    size: 'lg',
+    hoverHalo: 'rgba(96, 165, 250, 0.18)',
+    hoverGlow: 'rgba(96, 165, 250, 0.22)',
+    hoverBrightness: 1.16,
+  },
+  {
+    name: 'Strathcona Resources',
+    logo: strathconaLogo,
+    size: 'lg',
+    hoverHalo: 'rgba(75, 114, 62, 0.18)',
+    hoverGlow: 'rgba(75, 114, 62, 0.24)',
+    hoverBrightness: 1.14,
+  },
+  {
+    name: 'Obsidian Energy',
+    logo: obsidianLogo,
+    size: 'md',
+    hoverHalo: 'rgba(146, 69, 154, 0.2)',
+    hoverGlow: 'rgba(146, 69, 154, 0.28)',
+    hoverBrightness: 1.06,
+    logoShiftX: '18px',
+    logoShiftY: '-28px',
+  },
+  {
+    name: 'Athabasca Oil',
+    logo: athabascaLogo,
+    size: 'md',
+    hoverHalo: 'rgba(204, 31, 38, 0.18)',
+    hoverGlow: 'rgba(204, 31, 38, 0.22)',
+    hoverBrightness: 1.16,
+  },
+  {
+    name: 'Connacher Oil and Gas',
+    logo: connacherLogo,
+    size: 'md',
+    hoverHalo: 'rgba(195, 162, 4, 0.22)',
+    hoverGlow: 'rgba(195, 162, 4, 0.28)',
+    hoverBrightness: 1.14,
+  },
 ];
 
 // Distribute clients across 3 streams with different orderings
@@ -41,23 +96,45 @@ const stream1 = [clients[0], clients[3], clients[1], clients[5], clients[2], cli
 const stream2 = [clients[2], clients[4], clients[0], clients[1], clients[5], clients[3]];
 const stream3 = [clients[1], clients[5], clients[3], clients[4], clients[0], clients[2]];
 
-const ClientCard = ({ client, index }: { client: Client; index: number }) => (
-  <div
-    className={`${styles.card} ${styles[`card${client.size || 'md'}`]}`}
-    style={{ '--card-delay': `${index * 0.12}s` } as React.CSSProperties}
-  >
-    <div className={styles.cardGlass} />
-    <div className={styles.cardContent}>
-      <img
-        src={client.logo}
-        alt={client.name}
-        className={styles.logo}
-        loading="lazy"
-      />
+const ClientCard = ({ client, index }: { client: Client; index: number }) => {
+  const cardStyle = {
+    '--card-delay': `${index * 0.12}s`,
+    '--logo-halo': client.hoverHalo,
+    '--logo-glow': client.hoverGlow,
+    '--logo-brightness': `${client.hoverBrightness ?? 1.08}`,
+    '--logo-shift-x': client.logoShiftX ?? '0px',
+    '--logo-shift-y': client.logoShiftY ?? '0px',
+  } as React.CSSProperties;
+
+  return (
+    <div
+      className={`${styles.card} ${styles[`card${client.size || 'md'}`]}`}
+      style={cardStyle}
+    >
+      <div className={styles.cardGlass} />
+      <div className={styles.cardContent}>
+        <div className={styles.logoStack}>
+          <img
+            src={client.logo}
+            alt={client.name}
+            className={`${styles.logo} ${styles.logoAmbient}`}
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            src={client.logo}
+            alt=""
+            aria-hidden="true"
+            className={`${styles.logo} ${styles.logoColor}`}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+      <div className={styles.cardShine} />
     </div>
-    <div className={styles.cardShine} />
-  </div>
-);
+  );
+};
 
 export const ClientStream = () => {
   const { prefersReducedMotion, tier } = useDeviceCapability();

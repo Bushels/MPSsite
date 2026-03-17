@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useMemo, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import styles from './HeroUltimate.module.css';
+import mpsLogo from '../../MPS Logo.png';
 
 /* ─────────────────────────────────────────────
    HERO ULTIMATE — "FLOW"
@@ -440,7 +441,7 @@ export const HeroUltimate = () => {
               animate="visible"
             >
               <motion.div variants={logoReveal} className={styles.logoComposed}>
-                <img src="/MPS Logo.png" alt="MPS Group" className={styles.logo} />
+                <img src={mpsLogo} alt="MPS Group" className={styles.logo} />
               </motion.div>
 
               <motion.div variants={lineGrow} className={styles.logoSeparator} />

@@ -29,3 +29,6 @@ dist-ssr
 .gemini
 temp_skills
 temp_stitch
+.playwright-cli/
+output/
+*.tsbuildinfo

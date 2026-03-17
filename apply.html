@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <title>MPS Group | Careers Application</title>
+    <script type="module">
+      (function () {
+        const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID?.trim();
+        if (!measurementId) return;
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function () {
+          window.dataLayer.push(arguments);
+        };
+
+        window.gtag('js', new Date());
+        window.gtag('config', measurementId);
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src =
+          'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(measurementId);
+        document.head.appendChild(script);
+      })();
+    </script>
+    <style>
+      :root {
+        --bg-0: #020408;
+        --bg-1: #051025;
+        --bg-2: #0a1830;
+        --text-0: #f8fafc;
+        --text-1: rgba(203, 213, 225, 0.82);
+        --text-2: rgba(148, 163, 184, 0.78);
+        --blue-0: #2563eb;
+        --blue-1: #60a5fa;
+        --border: rgba(255, 255, 255, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Manrope", Arial, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(37, 99, 235, 0.16), transparent 30%),
+          linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 18%, var(--bg-2) 100%);
+        color: var(--text-0);
+      }
+      .page {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 72px;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+      .brand {
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .backlink {
+        color: var(--text-0);
+        text-decoration: none;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+      .card {
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        background: rgba(4, 12, 24, 0.58);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 24px 50px -20px rgba(0, 5, 20, 0.5);
+      }
+      .heroCard,
+      .statusCard,
+      .formCard { padding: 28px; }
+      .eyebrow,
+      label {
+        display: block;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-2);
+      }
+      h1 {
+        margin: 12px 0 14px;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.02;
+        letter-spacing: 0.03em;
+      }
+      .accent { color: var(--blue-1); }
+      p { margin: 0; color: var(--text-1); line-height: 1.75; }
+      .statusCard h2,
+      .formCard h2 { margin: 10px 0 12px; font-size: 1.35rem; }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(96, 165, 250, 0.18);
+        background: rgba(37, 99, 235, 0.12);
+        color: rgba(191, 219, 254, 0.94);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--blue-1);
+        box-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
+      }
+      .roleBlock {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .roleBlock strong { display: block; font-size: 1.05rem; margin-bottom: 6px; }
+      .formCard { margin-top: 24px; }
+      .formGrid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .full { grid-column: 1 / -1; }
+      input, select, textarea {
+        width: 100%;
+        margin-top: 8px;
+        min-height: 52px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: rgba(3, 10, 22, 0.72);
+        color: var(--text-0);
+        font: inherit;
+      }
+      textarea { min-height: 144px; resize: vertical; }
+      .fileWrap {
+        margin-top: 8px;
+        padding: 16px;
+        border-radius: 16px;
+        border: 1px dashed rgba(96, 165, 250, 0.26);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 14px;
+        border: 1px solid rgba(96, 165, 250, 0.22);
+        background: linear-gradient(135deg, var(--blue-0) 0%, #1d4ed8 100%);
+        color: #fff;
+        font-weight: 800;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .ghost {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .notice {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(96, 165, 250, 0.16);
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--text-1);
+      }
+      .message {
+        display: none;
+        margin-top: 16px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(244, 114, 182, 0.18);
+        background: rgba(190, 24, 93, 0.08);
+        color: #fbcfe8;
+      }
+      .message.show { display: block; }
+      @media (max-width: 820px) {
+        .hero, .formGrid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <div class="brand">MPS Group</div>
+        <a class="backlink" href="/#careers">Back to careers</a>
+      </div>
+
+      <div class="hero">
+        <section class="card heroCard">
+          <span class="eyebrow">Application</span>
+          <h1>Apply for <span id="role-title" class="accent">the selected role</span></h1>
+          <p>
+            This page holds the full intake form so the homepage can stay focused on
+            current openings and future opportunities.
+          </p>
+          <div class="roleBlock">
+            <span class="eyebrow">Selected role</span>
+            <strong id="role-heading">Role details incoming</strong>
+            <p id="role-copy">If a title was provided from the careers page, it will appear here.</p>
+          </div>
+        </section>
+
+        <aside class="card statusCard">
+          <span class="pill"><span class="dot"></span> CMS Bridge Pending</span>
+          <h2>Full intake form</h2>
+          <p>
+            The form below is structured for the MPS HR application record. The secure
+            submission handoff is the next backend step.
+          </p>
+        </aside>
+      </div>
+
+      <section class="card formCard">
+        <span class="eyebrow">MPS HR Intake</span>
+        <h2>Complete the required information</h2>
+        <form id="apply-form">
+          <div class="formGrid">
+            <div>
+              <label for="entry-date">Entry date</label>
+              <input id="entry-date" name="entryDate" type="date" />
+            </div>
+            <div>
+              <label for="application-type">Application type</label>
+              <select id="application-type" name="applicationType">
+                <option>Employee - Saskatchewan</option>
+                <option>Employee - Alberta</option>
+                <option>Field / Travel</option>
+              </select>
+            </div>
+            <div class="full">
+              <label for="job-position">Job position</label>
+              <input id="job-position" name="jobPosition" type="text" />
+            </div>
+            <div>
+              <label for="first-name">First name</label>
+              <input id="first-name" name="firstName" type="text" required />
+            </div>
+            <div>
+              <label for="last-name">Last name</label>
+              <input id="last-name" name="lastName" type="text" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div>
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" required />
+            </div>
+            <div>
+              <label for="cell">Cell</label>
+              <input id="cell" name="cell" type="tel" />
+            </div>
+            <div>
+              <label for="address">Address</label>
+              <input id="address" name="address" type="text" required />
+            </div>
+            <div>
+              <label for="city">City</label>
+              <input id="city" name="city" type="text" required />
+            </div>
+            <div>
+              <label for="province">Province</label>
+              <input id="province" name="province" type="text" required />
+            </div>
+            <div>
+              <label for="postal">Postal code</label>
+              <input id="postal" name="postal" type="text" required />
+            </div>
+            <div class="full">
+              <label for="resume">Resume</label>
+              <div class="fileWrap">
+                <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" required />
+              </div>
+            </div>
+            <div class="full">
+              <label for="notes">Notes</label>
+              <textarea id="notes" name="notes" placeholder="Tell MPS why this opportunity fits your background."></textarea>
+            </div>
+          </div>
+
+          <div class="notice">
+            This page is ready for the full application flow. The secure CMS handoff is not
+            active yet, so submitting here will not send data today.
+          </div>
+          <div id="submit-message" class="message">
+            The secure CMS bridge is still pending, so this application was not submitted yet.
+          </div>
+          <div class="actions">
+            <button class="button" type="submit">Submit application</button>
+            <a class="button ghost" href="mailto:careers@mpsgroup.ca">Email careers@mpsgroup.ca</a>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const roleTitle = params.get('roleTitle') || '';
+      const roleId = params.get('roleId') || '';
+      const titleTarget = document.getElementById('role-title');
+      const headingTarget = document.getElementById('role-heading');
+      const copyTarget = document.getElementById('role-copy');
+      const positionField = document.getElementById('job-position');
+      const entryDateField = document.getElementById('entry-date');
+      const submitMessage = document.getElementById('submit-message');
+      const form = document.getElementById('apply-form');
+      const careersEmailLink = document.querySelector('a[href="mailto:careers@mpsgroup.ca"]');
+
+      const trackLeadEvent = (eventName, params = {}) => {
+        if (typeof window.gtag !== 'function') return;
+        window.gtag('event', eventName, {
+          transport_type: 'beacon',
+          ...params,
+        });
+      };
+
+      if (roleTitle) {
+        titleTarget.textContent = roleTitle;
+        headingTarget.textContent = roleTitle;
+        copyTarget.textContent = roleId ? `Role ID: ${roleId}` : 'Selected from the MPS careers hub.';
+        positionField.value = roleTitle;
+      }
+
+      const now = new Date();
+      const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 10);
+      entryDateField.value = localDate;
+
+      trackLeadEvent('careers_application_page_view', {
+        role_id: roleId || 'unscoped',
+        role_title: roleTitle || 'unspecified',
+      });
+
+      careersEmailLink?.addEventListener('click', () => {
+        trackLeadEvent('contact_click', {
+          contact_method: 'email',
+          cta_location: 'apply_page',
+          link_text: 'Email careers@mpsgroup.ca',
+        });
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        submitMessage.classList.add('show');
+        submitMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    </script>
+  </body>
+</html>

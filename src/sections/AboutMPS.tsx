@@ -26,6 +26,13 @@ interface Value {
   icon: JSX.Element;
 }
 
+interface Certification {
+  name: string;
+  label: string;
+  logo: string;
+  alt: string;
+}
+
 const values: Value[] = [
   {
     title: 'Safety First',
@@ -90,6 +97,33 @@ const values: Value[] = [
         />
       </svg>
     ),
+  },
+];
+
+const certifications: Certification[] = [
+  {
+    name: 'ACSA',
+    label: 'Safety Association',
+    logo: '/ACSA.png',
+    alt: 'Alberta Construction Safety Association',
+  },
+  {
+    name: 'CQN',
+    label: 'Qualification Network',
+    logo: '/CanQual-Network-Logo.jpg',
+    alt: 'CanQual Network',
+  },
+  {
+    name: 'ComplyWorks',
+    label: 'Contractor Compliance',
+    logo: '/complyworks.png',
+    alt: 'ComplyWorks',
+  },
+  {
+    name: 'ISN',
+    label: 'Contractor Management',
+    logo: '/ISN.png',
+    alt: 'ISN',
   },
 ];
 
@@ -215,6 +249,25 @@ export const AboutMPS = () => {
                   services.
                 </p>
 
+                <div className={styles.certSection} aria-label="Compliance platforms and safety memberships">
+                  <span className={styles.certTitle}>Connected Across Industry Platforms</span>
+
+                  <div className={styles.certGrid}>
+                    {certifications.map((cert) => (
+                      <div key={cert.name} className={styles.certCard}>
+                        <div className={styles.certGlass} />
+                        <img
+                          src={cert.logo}
+                          alt={cert.alt}
+                          className={styles.certLogo}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <span className={styles.certLabel}>{cert.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </AmbientCard>
           </motion.div>

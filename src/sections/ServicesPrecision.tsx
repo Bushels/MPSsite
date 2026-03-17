@@ -10,6 +10,7 @@ import {
   DownholeVisual,
   PipeStorageVisual,
 } from '../components/illustrations';
+import { trackLeadEvent } from '../services/analytics';
 import styles from './ServicesPrecision.module.css';
 
 /* ═══════════════════════════════════════════════
@@ -202,6 +203,15 @@ export const ServicesPrecision = () => {
     setExpandedService(service);
   }, []);
 
+  const handleQuoteRequestClick = useCallback((service: Service) => {
+    trackLeadEvent('quote_request_click', {
+      cta_location: 'services_modal',
+      service_id: service.id,
+      service_name: service.title,
+    });
+    closeModal();
+  }, [closeModal]);
+
   return (
     <section id="services" ref={sectionRef} className={styles.section}>
       {/* Background atmosphere */}
@@ -338,7 +348,11 @@ export const ServicesPrecision = () => {
                   <span className={styles.modalStatValue}>{expandedService.stat.value}</span>
                   <span className={styles.modalStatLabel}>{expandedService.stat.label}</span>
                 </div>
-                <a href="#contact" className={styles.modalCta} onClick={closeModal}>
+                <a
+                  href="#contact"
+                  className={styles.modalCta}
+                  onClick={() => handleQuoteRequestClick(expandedService)}
+                >
                   Request a Quote
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

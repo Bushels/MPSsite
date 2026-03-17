@@ -204,7 +204,7 @@ const buildFieldPath = (
 
   if (distort) {
     const mDist = Math.sqrt((mx * 100 - cpX) ** 2 + (my * 100 - cpY) ** 2);
-    if (mDist < 35) {
+    if (mDist > 0 && mDist < 35) {
       const warp = (1 - mDist / 35) * 12;
       cpX += (cpX - mx * 100) / mDist * warp;
       cpY += (cpY - my * 100) / mDist * warp;

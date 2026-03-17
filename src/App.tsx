@@ -3,7 +3,6 @@ import { HeroUltimate } from './sections/HeroUltimate';
 import { ClientStream } from './sections/ClientStream';
 import { ServicesPrecision } from './sections/ServicesPrecision';
 import { ElectromagneticStats } from './sections/ElectromagneticStats';
-import { Certifications } from './sections/Certifications';
 import { AboutMPS } from './sections/AboutMPS';
 import { CareersForge } from './sections/CareersForge';
 import { ContactBeacon } from './sections/ContactBeacon';
@@ -28,7 +27,6 @@ function App() {
           <ClientStream />
           <ServicesPrecision />
           <ElectromagneticStats />
-          <Certifications />
           <AboutMPS />
           <CareersForge />
           <ContactBeacon />

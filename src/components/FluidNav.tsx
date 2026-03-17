@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MagneticElement } from './MagneticElement';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import styles from './FluidNav.module.css';
+import mpsLogo from '../../MPS Logo.png';
 
 const navItems = [
   { label: 'Services', href: '#services' },
@@ -76,7 +77,7 @@ export const FluidNav = () => {
             <MagneticElement strength={0.12} className={styles.logoWrap}>
               <a href="#" className={styles.logoLink} aria-label="MPS Group — Back to top">
                 <img
-                  src="/MPS Logo.png"
+                  src={mpsLogo}
                   alt="MPS Group"
                   className={styles.logo}
                 />

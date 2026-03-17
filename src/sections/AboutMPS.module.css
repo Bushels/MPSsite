@@ -202,7 +202,7 @@
 .certLogo {
   position: relative;
   z-index: 1;
-  max-width: 120px;
+  max-width: 148px;
   max-height: 48px;
   width: auto;
   height: auto;
@@ -390,7 +390,7 @@
   }
 
   .certLogo {
-    max-width: 80px;
+    max-width: 110px;
     max-height: 36px;
   }
 
@@ -432,7 +432,7 @@
   }
 
   .certLogo {
-    max-width: 90px;
+    max-width: 118px;
     max-height: 40px;
   }
 

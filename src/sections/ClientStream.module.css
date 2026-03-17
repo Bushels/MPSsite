@@ -107,6 +107,11 @@
   animation: driftUp 40s linear infinite;
 }
 
+.stream:hover .streamTrack,
+.stream:hover .streamReverse {
+  animation-play-state: paused;
+}
+
 .streamReverse {
   animation-name: driftDown;
 }
@@ -158,6 +163,7 @@
   border-radius: 14px;
   overflow: hidden;
   flex-shrink: 0;
+  cursor: pointer;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -218,43 +224,106 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.cardContent::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    var(--logo-halo, rgba(96, 165, 250, 0.14)) 34%,
+    transparent 72%
+  );
+  opacity: 0.04;
+  transform: scale(0.86);
+  filter: blur(10px);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logoStack {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
 }
 
 /* Logo — inverted to flip dark fills to light on dark bg */
 .logo {
+  grid-area: 1 / 1;
   max-width: 80%;
   max-height: 65%;
   width: auto;
   height: auto;
   object-fit: contain;
   /* Invert dark logos → light, then desaturate + dim for ambient feel */
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logoAmbient {
+  filter: invert(1) grayscale(1) brightness(1.2);
+  opacity: 0.34;
+  transform: translate(var(--logo-shift-x, 0px), var(--logo-shift-y, 0px));
+}
+
+.logoColor {
+  opacity: 0;
+  transform: translate(var(--logo-shift-x, 0px), var(--logo-shift-y, 0px)) scale(0.94);
   filter:
-    invert(1)
-    grayscale(1)
-    brightness(1.2)
-    opacity(0.3);
-  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    brightness(var(--logo-brightness, 1.08))
+    saturate(1.2)
+    contrast(1.06)
+    drop-shadow(0 0 22px var(--logo-glow, rgba(96, 165, 250, 0.2)));
 }
 
 /* Hover — logos subtly come alive */
-.card:hover .logo {
-  filter:
-    invert(1)
-    grayscale(0.4)
-    brightness(1.4)
-    opacity(0.55);
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card:hover .logoAmbient {
+  opacity: 0.03;
+  transform: translate(var(--logo-shift-x, 0px), var(--logo-shift-y, 0px)) scale(1.02);
+  filter: invert(1) grayscale(0.96) brightness(1.1);
+}
+
+.card:hover .logoColor {
+  opacity: 1;
+  transform: translate(var(--logo-shift-x, 0px), var(--logo-shift-y, 0px)) scale(1);
+}
+
+.card:hover .cardContent::before {
+  opacity: 0.92;
+  transform: scale(1);
 }
 
 .card:hover .cardGlass {
-  border-color: rgba(96, 165, 250, 0.12);
-  background: linear-gradient(
-    135deg,
-    rgba(15, 30, 60, 0.6) 0%,
-    rgba(8, 20, 45, 0.5) 100%
-  );
+  border-color: rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(
+      circle at center,
+      var(--logo-halo, rgba(96, 165, 250, 0.14)) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(15, 30, 60, 0.66) 0%,
+      rgba(8, 20, 45, 0.54) 100%
+    );
 }
 
 /* ═══════════════════════════════════════════════
@@ -361,16 +430,29 @@
 /* ─── TOUCH DEVICES ─── */
 
 @media (hover: none) and (pointer: coarse) {
-  .card:hover .logo {
-    filter:
-      invert(1)
-      grayscale(1)
-      brightness(1.2)
-      opacity(0.3);
+  .card:hover .logoAmbient {
+    opacity: 0.3;
+    transform: translate(var(--logo-shift-x, 0px), var(--logo-shift-y, 0px));
+    filter: invert(1) grayscale(1) brightness(1.2);
+  }
+
+  .card:hover .logoColor {
+    opacity: 0;
+    transform: translate(var(--logo-shift-x, 0px), var(--logo-shift-y, 0px)) scale(0.94);
+  }
+
+  .card:hover .cardContent::before {
+    opacity: 0.04;
+    transform: scale(0.86);
   }
 
   .card:hover .cardGlass {
     border-color: rgba(255, 255, 255, 0.06);
+    background: linear-gradient(
+      135deg,
+      rgba(15, 30, 60, 0.5) 0%,
+      rgba(8, 20, 45, 0.4) 100%
+    );
   }
 }
 
@@ -384,7 +466,8 @@
 
   .card,
   .logo,
-  .cardGlass {
+  .cardGlass,
+  .cardContent::before {
     transition: none;
   }
 }

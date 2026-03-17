@@ -741,11 +741,11 @@
 /* ─── MPS LOGO ─── */
 
 .logoComposed {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.45rem;
 }
 
 .logo {
-  width: clamp(120px, 14vw, 200px);
+  width: clamp(138px, 15.5vw, 228px);
   height: auto;
   filter:
     drop-shadow(0 2px 16px rgba(0, 0, 0, 0.4))
@@ -773,7 +773,7 @@
     rgba(37, 99, 235, 0.5) 70%,
     transparent 100%
   );
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   transform-origin: center;
 }
 
@@ -781,7 +781,7 @@
 
 .flowTitle {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(7rem, 18vw, 16rem);
+  font-size: clamp(6.4rem, 16.5vw, 14.5rem);
   font-weight: 400;
   line-height: 0.82;
   letter-spacing: 0.06em;
@@ -823,8 +823,8 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin-top: 0.4rem;
-  margin-bottom: 2.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 2.3rem;
 }
 
 .descriptorLine {
@@ -1018,7 +1018,7 @@
 
 @media (max-width: 1024px) {
   .logo {
-    width: clamp(110px, 16vw, 170px);
+    width: clamp(124px, 17vw, 186px);
   }
 
   .keysLayer {
@@ -1032,15 +1032,17 @@
   }
 
   .logo {
-    width: clamp(100px, 28vw, 150px);
+    width: clamp(118px, 30vw, 170px);
   }
 
   .flowTitle {
-    font-size: clamp(5rem, 22vw, 8rem);
+    font-size: clamp(4.25rem, 19vw, 7.2rem);
   }
 
   .descriptorRow {
     gap: 0.75rem;
+    margin-top: 0.1rem;
+    margin-bottom: 2rem;
   }
 
   .descriptorLine {
@@ -1055,6 +1057,7 @@
 
   .logoSeparator {
     width: 50px;
+    margin-bottom: 0.35rem;
   }
 
   .capabilities {
@@ -1124,11 +1127,16 @@
     padding: 0 1rem;
   }
 
+  .logoComposed {
+    margin-bottom: 0.3rem;
+  }
+
   .logo {
-    width: 90px;
+    width: 104px;
   }
 
   .flowTitle {
+    font-size: clamp(4rem, 17.5vw, 5.6rem);
     letter-spacing: 0.03em;
   }
 
@@ -1137,7 +1145,8 @@
   }
 
   .descriptorRow {
-    margin-bottom: 1.75rem;
+    margin-top: 0;
+    margin-bottom: 1.6rem;
   }
 
   .capabilities {
@@ -1146,6 +1155,7 @@
 
   .logoSeparator {
     width: 40px;
+    margin-bottom: 0.25rem;
   }
 
   .keysLayer {

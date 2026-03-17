@@ -4,6 +4,7 @@ import { LiteCard } from '../components/LiteCard';
 import { LegalModal } from '../components/LegalModal';
 import { MagneticElement } from '../components/MagneticElement';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
+import { trackLeadEvent } from '../services/analytics';
 import styles from './ContactBeacon.module.css';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -315,7 +316,17 @@ export const ContactBeacon = () => {
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactPrefix}>TEL</span>
-                  <a href="tel:+1-780-594-8100" className={styles.contactLink}>
+                  <a
+                    href="tel:+1-780-594-8100"
+                    className={styles.contactLink}
+                    onClick={() =>
+                      trackLeadEvent('contact_click', {
+                        contact_method: 'phone',
+                        cta_location: 'contact_panel_details',
+                        link_text: '(780) 594-8100',
+                      })
+                    }
+                  >
                     (780) 594-8100
                   </a>
                 </div>
@@ -325,7 +336,17 @@ export const ContactBeacon = () => {
                 </div>
                 <div className={styles.contactRow}>
                   <span className={styles.contactPrefix}>COM</span>
-                  <a href="mailto:info@mpsgroup.ca" className={styles.contactLink}>
+                  <a
+                    href="mailto:info@mpsgroup.ca"
+                    className={styles.contactLink}
+                    onClick={() =>
+                      trackLeadEvent('contact_click', {
+                        contact_method: 'email',
+                        cta_location: 'contact_panel_details',
+                        link_text: 'info@mpsgroup.ca',
+                      })
+                    }
+                  >
                     info@mpsgroup.ca
                   </a>
                 </div>
@@ -364,6 +385,13 @@ export const ContactBeacon = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.directionsBtn}
+                  onClick={() =>
+                    trackLeadEvent('directions_click', {
+                      cta_location: 'contact_panel_primary',
+                      link_text: 'Get Directions',
+                      link_url: 'https://maps.google.com/?q=54.3243751,-109.8403854',
+                    })
+                  }
                 >
                   <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
                     <path d="M3 11l19-9-9 19-2-8-8-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -375,6 +403,13 @@ export const ContactBeacon = () => {
                 <a
                   href="mailto:info@mpsgroup.ca"
                   className={styles.emailBtn}
+                  onClick={() =>
+                    trackLeadEvent('contact_click', {
+                      contact_method: 'email',
+                      cta_location: 'contact_panel_primary',
+                      link_text: 'Send Message',
+                    })
+                  }
                 >
                   <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
                     <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" strokeWidth="2" />

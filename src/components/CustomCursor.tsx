@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useContext, useCallback } from 'react';
+import { useEffect, useState, createContext, useCallback } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import styles from './CustomCursor.module.css';
@@ -12,8 +12,6 @@ interface CursorContextType {
 const CursorContext = createContext<CursorContextType>({
   setCursorState: () => {},
 });
-
-export const useCursor = () => useContext(CursorContext);
 
 /**
  * Custom Cursor
