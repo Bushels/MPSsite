@@ -1,0 +1,110 @@
+.section {
+  padding: 40px 20px 36px;
+}
+
+.header {
+  max-width: 1240px;
+  margin: 0 auto 22px;
+}
+
+.eyebrow,
+.cardLabel {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: rgba(255, 142, 122, 0.92);
+}
+
+.title {
+  max-width: 15ch;
+  margin-top: 10px;
+  font-size: clamp(2.4rem, 5.2vw, 3.8rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.card {
+  min-height: 100%;
+}
+
+.cardHeader h3 {
+  margin-top: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  line-height: 0.96;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.cardLabel {
+  color: rgba(96, 165, 250, 0.92);
+}
+
+.stack {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.item,
+.contactRow {
+  display: grid;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.item strong,
+.contactRow strong,
+.contactRow a {
+  color: #fff;
+}
+
+.item p,
+.contactRow span {
+  color: rgba(203, 213, 225, 0.76);
+  line-height: 1.64;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+  padding-left: 18px;
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.list li {
+  line-height: 1.62;
+}
+
+@media (max-width: 780px) {
+  .section {
+    padding: 30px 14px 24px;
+  }
+
+  .title {
+    max-width: none;
+    font-size: clamp(2.1rem, 10vw, 3rem);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

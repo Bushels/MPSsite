@@ -1,0 +1,157 @@
+.shell {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  padding: 16px 20px 0;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  background: rgba(4, 10, 19, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 24px 50px -28px rgba(0, 5, 20, 0.7);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.logo {
+  width: 42px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.brandCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brandLabel {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(248, 250, 252, 0.76);
+}
+
+.brandSub {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.links {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.links a {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(248, 250, 252, 0.68);
+  transition: color 180ms ease;
+}
+
+.links a:hover,
+.links a:focus-visible {
+  color: #fff;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.callButton,
+.bookButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 14px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.callButton {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(248, 250, 252, 0.88);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.bookButton {
+  border: 1px solid rgba(227, 30, 36, 0.35);
+  color: #fff;
+  background: linear-gradient(135deg, #b80f23 0%, #e31e24 55%, #ff6b4a 100%);
+  box-shadow: 0 16px 32px -18px rgba(227, 30, 36, 0.7);
+}
+
+.callButton:hover,
+.callButton:focus-visible,
+.bookButton:hover,
+.bookButton:focus-visible {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1040px) {
+  .links {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    padding: 14px 14px 0;
+  }
+
+  .bar {
+    padding: 12px 14px;
+    border-radius: 24px;
+  }
+
+  .brandLabel {
+    font-size: 0.68rem;
+  }
+
+  .brandSub {
+    font-size: 0.96rem;
+  }
+
+  .callButton {
+    display: none;
+  }
+
+  .bookButton {
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 0.66rem;
+  }
+}

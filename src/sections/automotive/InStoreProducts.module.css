@@ -1,0 +1,200 @@
+.section {
+  padding: 24px 20px 24px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 22px;
+  max-width: 1240px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(13, 18, 31, 0.92) 0%, rgba(9, 13, 24, 0.96) 100%);
+  box-shadow: 0 24px 54px -34px rgba(0, 5, 20, 0.72);
+}
+
+.eyebrow,
+.cardLabel,
+.listLabel {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: rgba(96, 165, 250, 0.92);
+}
+
+.title {
+  max-width: 14ch;
+  font-size: clamp(2.35rem, 4.8vw, 3.9rem);
+  line-height: 0.96;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.copy {
+  max-width: 54ch;
+  color: rgba(226, 232, 240, 0.8);
+  line-height: 1.72;
+}
+
+.brandCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.brandChip,
+.inlineBrand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brandChip {
+  border: 1px solid rgba(96, 165, 250, 0.16);
+  background: rgba(96, 165, 250, 0.1);
+  color: rgba(191, 219, 254, 0.96);
+}
+
+.note {
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(203, 213, 225, 0.74);
+  line-height: 1.62;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #b80f23 0%, #e31e24 55%, #ff6b4a 100%);
+  box-shadow: 0 18px 32px -20px rgba(227, 30, 36, 0.72);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  min-height: 100%;
+}
+
+.cardLabel {
+  color: rgba(255, 142, 122, 0.92);
+}
+
+.card h3 {
+  margin-top: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  line-height: 0.96;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.cardCopy {
+  margin-top: 12px;
+  color: rgba(226, 232, 240, 0.78);
+  line-height: 1.68;
+}
+
+.listBlock {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.listLabel {
+  color: rgba(148, 163, 184, 0.92);
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  padding-left: 18px;
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.list li {
+  line-height: 1.58;
+}
+
+.brandRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.inlineBrand {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(248, 250, 252, 0.9);
+}
+
+@media (max-width: 1080px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .intro {
+    position: static;
+  }
+}
+
+@media (max-width: 780px) {
+  .section {
+    padding: 18px 14px 14px;
+  }
+
+  .intro {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .title {
+    max-width: none;
+    font-size: clamp(2.05rem, 10vw, 3rem);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

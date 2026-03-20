@@ -1,5 +1,17 @@
 # Site Change Log
 
+## 2026-03-20
+
+### Automotive booking page MVP
+
+- Added a dedicated automotive entry page at `/automotive` instead of forcing this into the main industrial landing page.
+- Chose a separate Vite HTML entry over `react-router-dom` because this repo already uses a multi-page build (`index.html` + `apply.html`), and the standalone entry keeps metadata, sitemap coverage, and deployment behaviour simpler.
+- Built the automotive experience as modular React sections in `src/sections/automotive/` with a shared shell in `src/layouts/AutomotiveSite.tsx`.
+- Added a four-step booking wizard with shared service-selection state, SGI-specific mailing-address handling, dynamic weekday slot generation, and booking analytics events.
+- Reused the existing `LegalModal` pattern by extracting shared privacy and terms content into `src/components/legalContent.tsx`.
+- Added a shared booking contract plus `api/automotive-booking.ts` as the first Vercel booking handoff path, with optional webhook forwarding and a localhost preview fallback for non-Vercel local work.
+- Centralized shared company contact details in `src/data/company.ts`, moved the SGI badge into `public/images/`, and converted the SGI vehicle-size selector to real radio inputs.
+
 ## 2026-03-09
 
 ### Careers hub simplification

@@ -11,6 +11,7 @@ const navItems = [
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Automotive', href: '/automotive/' },
 ];
 
 export const FluidNav = () => {

@@ -32,3 +32,6 @@ temp_stitch
 .playwright-cli/
 output/
 *.tsbuildinfo
+
+.vercel
+.env*.local

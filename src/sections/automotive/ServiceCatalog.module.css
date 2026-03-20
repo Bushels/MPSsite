@@ -1,0 +1,189 @@
+.section {
+  padding: 48px 20px 24px;
+}
+
+.header {
+  max-width: 1240px;
+  margin: 0 auto 24px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 142, 122, 0.92);
+}
+
+.title {
+  max-width: 14ch;
+  margin-top: 10px;
+  font-size: clamp(2.6rem, 5.6vw, 4.2rem);
+  line-height: 0.94;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f8fafc;
+}
+
+.copy {
+  max-width: 56ch;
+  margin-top: 12px;
+  color: rgba(203, 213, 225, 0.78);
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.cardButton {
+  text-align: left;
+}
+
+.card {
+  min-height: 100%;
+}
+
+.cardSelected {
+  outline: 2px solid rgba(255, 142, 122, 0.52);
+  outline-offset: -2px;
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.serviceName {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  line-height: 0.96;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.sgiBadge,
+.duration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sgiBadge {
+  background: rgba(96, 165, 250, 0.12);
+  color: rgba(191, 219, 254, 0.95);
+}
+
+.duration {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.description {
+  margin-top: 18px;
+  color: rgba(226, 232, 240, 0.74);
+  line-height: 1.66;
+}
+
+.cardBottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.priceLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.88);
+}
+
+.priceValue {
+  font-size: 1.18rem;
+  color: #fff;
+}
+
+.ctaHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 142, 122, 0.92);
+}
+
+.arrow {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.catalogCta {
+  display: inline-flex;
+  margin: 22px auto 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(248, 250, 252, 0.88);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1040px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .section {
+    padding: 34px 14px 14px;
+  }
+
+  .title {
+    max-width: none;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardBottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

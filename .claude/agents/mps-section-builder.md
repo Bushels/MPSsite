@@ -25,9 +25,15 @@ Build production-ready sections for the MPS Group website and keep them aligned 
 
 - Sections live in `src/sections/SectionName.tsx` and `src/sections/SectionName.module.css`
 - Shared UI lives in `src/components/`
-- Integrate new sections through `src/App.tsx` unless the existing structure says otherwise
+- Decide the entrypoint first: integrate through `src/App.tsx` only when the repo is a single-page app. If the repo already uses multiple HTML entries, preserve that pattern instead of forcing client-side routing.
 
 ## Core implementation patterns
+
+### Entry architecture
+
+- Check whether the repo already ships multiple Vite entries before adding `react-router-dom`.
+- Prefer a dedicated page entry for standalone marketing or service flows when that keeps metadata, sitemap, and deployment simpler.
+- Only add client-side routing when the user flow truly needs shared in-app navigation state.
 
 ### Animation
 

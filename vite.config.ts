@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         apply: resolve(__dirname, 'apply.html'),
+        automotive: resolve(__dirname, 'automotive/index.html'),
       },
     },
   },
