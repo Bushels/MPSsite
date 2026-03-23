@@ -8,6 +8,8 @@ import { CareersForge } from './sections/CareersForge';
 import { ContactBeacon } from './sections/ContactBeacon';
 import { FilmGrain } from './components/FilmGrain';
 import { CustomCursor } from './components/CustomCursor';
+import { TalkToUsWizard } from './components/TalkToUsWizard';
+import { TalkToUsProvider } from './context/TalkToUsContext';
 import { useLenis } from './hooks/useLenis';
 import { useAdaptiveGlass } from './hooks/useAdaptiveGlass';
 import styles from './App.module.css';
@@ -19,19 +21,22 @@ function App() {
 
   return (
     <CustomCursor>
-      <div className={styles.container}>
-        <FilmGrain />
-        <FluidNav />
-        <main>
-          <HeroUltimate />
-          <ClientStream />
-          <ServicesPrecision />
-          <ElectromagneticStats />
-          <AboutMPS />
-          <CareersForge />
-          <ContactBeacon />
-        </main>
-      </div>
+      <TalkToUsProvider>
+        <div className={styles.container}>
+          <FilmGrain />
+          <FluidNav />
+          <main>
+            <HeroUltimate />
+            <ClientStream />
+            <ServicesPrecision />
+            <ElectromagneticStats />
+            <AboutMPS />
+            <CareersForge />
+            <ContactBeacon />
+          </main>
+        </div>
+        <TalkToUsWizard />
+      </TalkToUsProvider>
     </CustomCursor>
   );
 }
