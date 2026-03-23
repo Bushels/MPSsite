@@ -7,6 +7,7 @@ import { companyProfile, getCurrentYear } from '../data/company';
 import { MagneticElement } from '../components/MagneticElement';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import { trackLeadEvent } from '../services/analytics';
+import { useTalkToUs } from '../context/TalkToUsContext';
 import styles from './ContactBeacon.module.css';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -125,6 +126,7 @@ const footerItem = {
 export const ContactBeacon = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { prefersReducedMotion } = useDeviceCapability();
+  const { openWizard } = useTalkToUs();
   const [legalModal, setLegalModal] = useState<'privacy' | 'terms' | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -398,23 +400,24 @@ export const ContactBeacon = () => {
                 </a>
               </MagneticElement>
               <MagneticElement strength={0.35}>
-                <a
-                  href={companyProfile.primaryEmailHref}
+                <button
+                  type="button"
                   className={styles.emailBtn}
-                  onClick={() =>
+                  onClick={() => {
                     trackLeadEvent('contact_click', {
                       contact_method: 'email',
                       cta_location: 'contact_panel_primary',
                       link_text: 'Send Message',
-                    })
-                  }
+                    });
+                    openWizard();
+                  }}
                 >
                   <svg viewBox="0 0 24 24" fill="none" width="18" height="18">
                     <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" strokeWidth="2" />
                     <path d="M22 7l-10 6L2 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                   <span>Send Message</span>
-                </a>
+                </button>
               </MagneticElement>
             </motion.div>
           </motion.div>
