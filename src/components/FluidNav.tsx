@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagneticElement } from './MagneticElement';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
+import { useTalkToUs } from '../context/TalkToUsContext';
 import styles from './FluidNav.module.css';
 import mpsLogo from '../../MPS Logo.png';
 
@@ -16,6 +17,7 @@ const navItems = [
 
 export const FluidNav = () => {
   const { prefersReducedMotion } = useDeviceCapability();
+  const { openWizard } = useTalkToUs();
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -112,7 +114,7 @@ export const FluidNav = () => {
 
             {/* Contact — beacon pulse + "Let's Talk" */}
             <MagneticElement strength={0.18}>
-              <a href="#contact" className={styles.contactBtn}>
+              <button type="button" className={styles.contactBtn} onClick={openWizard}>
                 <span className={styles.beacon}>
                   <span className={styles.beaconDot} />
                   {!prefersReducedMotion && <span className={styles.beaconPing} />}
@@ -133,7 +135,7 @@ export const FluidNav = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </button>
             </MagneticElement>
 
             {/* Mobile hamburger */}
@@ -173,7 +175,13 @@ export const FluidNav = () => {
                       <a
                         href={item.href}
                         className={styles.mobileLink}
-                        onClick={handleNavClick}
+                        onClick={(e) => {
+                          if (item.label === 'Contact') {
+                            e.preventDefault();
+                            openWizard();
+                          }
+                          handleNavClick();
+                        }}
                       >
                         {item.label}
                       </a>
