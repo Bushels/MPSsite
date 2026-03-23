@@ -1,5 +1,7 @@
 # MPS Group — Automotive Booking Page Design Brief
 
+> **Last verified:** 2026-03-19. Competitive pricing and SGI requirements should be re-checked periodically.
+
 ## Overview
 
 MPS Group offers SGI-accredited vehicle maintenance as a bonus service alongside their core industrial fabrication business. This page lives at `/automotive` as a dedicated experience — separate from the main industrial site but sharing the MPS brand and design system.

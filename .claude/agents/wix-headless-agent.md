@@ -11,10 +11,10 @@ Manage all Wix headless integration for the MPS Group site — CMS collections, 
 
 - **Account**: kylegronning2 (Owner), Wix Studio
 - **Site**: mps-group (Site ID: `d2a3c86a-3c4f-470f-9c71-7f9844ab5c5a`)
-- **Current plan**: Core (PREMIUM)
+- **Current plan**: Core (PREMIUM) — upgrade to Business pending approval (see `docs/wix-upgrade-proposal.md`)
 - **Domain**: mpsgroup.ca (published)
-- **CMS status**: Empty — 0 collections, 0/4,000 items
-- **Headless status**: Requires plan upgrade to Business ($32/mo) to unlock OAuth settings
+- **CMS status**: Empty — 0 collections, 0/4,000 items (awaiting Business plan)
+- **Headless status**: Blocked until Business plan upgrade ($32/mo) unlocks OAuth settings
 
 ## Dashboard Navigation
 
@@ -72,7 +72,7 @@ const { items: bookingServices } = await wixClient.services
   .find();
 ```
 
-## CMS Collection Schemas
+## Planned CMS Collection Schemas (not yet created — awaiting Business plan)
 
 ### SiteSettings (single-item)
 Global site content: company name, tagline, contact info (phone, fax, email, addresses), coordinates, acreage, established year, copyright year.

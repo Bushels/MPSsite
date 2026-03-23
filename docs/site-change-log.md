@@ -1,5 +1,23 @@
 # Site Change Log
 
+## 2026-03-22
+
+### Talk to Us contact routing wizard
+
+- Added a 2-step modal wizard triggered by the nav "Let's Talk" button, service modal "Request a Quote" links, and ContactBeacon "Send Message" button.
+- Step 1 shows 4 department cards: Services & Fabrication opens a contact form (step 2), while Pipe Storage, Downhole Tools, and Automotive redirect to their dedicated pages.
+- Step 2 is a minimal contact form (name, company, message) using `mailto:` as a Phase 1 fallback. Phase 2 will wire to Wix Forms CRM via `createSubmission()`.
+- Context pass-through: clicking "Request a Quote" from a service modal skips step 1 and pre-fills the message with the service name.
+- Icons are SVG line art (stroke-based, no fill) — consistent with the site's premium dark aesthetic.
+- New files: `src/context/TalkToUsContext.tsx`, `src/components/TalkToUsWizard.tsx`, `src/components/TalkToUsWizard.module.css`.
+- Modified: `FluidNav.tsx`, `ServicesPrecision.tsx`, `ContactBeacon.tsx`, `App.tsx`.
+
+### Design decisions
+
+- Wix AI Site Chat is Editor-only and does not work headlessly — ruled out for live chat.
+- Teams deep links were evaluated but dropped (require Teams on visitor side).
+- Phone card was removed in favor of form-only contact for headless simplicity.
+
 ## 2026-03-20
 
 ### Automotive booking page MVP

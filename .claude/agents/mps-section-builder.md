@@ -58,6 +58,10 @@ const { prefersReducedMotion, tier } = useDeviceCapability();
 - Do not create new global mousemove listeners unless there is no existing place to attach behavior.
 - Keep hooks out of JSX return paths.
 
+## Before building
+
+**Always grep first.** Before creating any new section, search `src/sections/` and `src/components/` for existing content with similar keywords. Example: before building a certifications section, search for "certifications", "ISO", "CWB", "COR". Past incident: a certifications section was built while AboutMPS already displayed the same certs.
+
 ## Do not do this
 
 - Do not duplicate content that already exists elsewhere on the page.

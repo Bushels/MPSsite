@@ -1,5 +1,7 @@
 # MPS Group — Wix Plan Upgrade Proposal
 
+> **See also:** `.claude/agents/wix-headless-agent.md` for technical integration details.
+
 ## Summary
 
 We're requesting an upgrade of the MPS Group Wix site (**mpsgroup.ca**) from the **Core plan** to the **Business plan** to enable headless CMS and online booking capabilities.
