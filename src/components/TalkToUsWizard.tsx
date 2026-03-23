@@ -211,9 +211,6 @@ export const TalkToUsWizard = () => {
     [name, company, message]
   );
 
-  const handlePhoneClick = useCallback(() => {
-    trackLeadEvent('wizard_phone_click');
-  }, []);
 
   /* ─── Render ───────────────────────────────────────────── */
 
@@ -367,29 +364,6 @@ export const TalkToUsWizard = () => {
                     </button>
                   </form>
 
-                  {/* Divider */}
-                  <div className={styles.divider}>
-                    <span className={styles.dividerLine} />
-                    <span className={styles.dividerText}>or call</span>
-                    <span className={styles.dividerLine} />
-                  </div>
-
-                  {/* Phone card */}
-                  <a
-                    className={styles.phoneCard}
-                    href={companyProfile.primaryPhoneHref}
-                    onClick={handlePhoneClick}
-                  >
-                    <span className={styles.phoneIcon} aria-hidden="true">
-                      📞
-                    </span>
-                    <div>
-                      <div className={styles.phoneLabel}>Call Us Directly</div>
-                      <div className={styles.phoneNumber}>
-                        {companyProfile.primaryPhoneDisplay}
-                      </div>
-                    </div>
-                  </a>
                 </motion.div>
               )}
 
