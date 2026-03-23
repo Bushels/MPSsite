@@ -16,7 +16,6 @@ interface Department {
   id: string;
   name: string;
   desc: string;
-  icon: string;
   redirect?: string;
 }
 
@@ -25,30 +24,78 @@ const DEPARTMENTS: Department[] = [
     id: 'services',
     name: 'Services & Fabrication',
     desc: 'Fab, Welding, Pipefitting, Modular, Machining',
-    icon: '🔧',
   },
   {
     id: 'storage',
     name: 'Pipe Storage',
     desc: 'Secured yard, logistics, inventory',
-    icon: '📦',
     redirect: '/storage/',
   },
   {
     id: 'downhole',
     name: 'Downhole Tools',
     desc: 'Sand control & monitoring solutions',
-    icon: '⚙️',
     redirect: '/wellfi/',
   },
   {
     id: 'automotive',
     name: 'Automotive',
     desc: 'SGI accredited vehicle maintenance',
-    icon: '🚗',
     redirect: '/automotive/',
   },
 ];
+
+/* ─── Department SVG icons (stroke line art, matching site aesthetic) ── */
+const svgProps = {
+  width: 22,
+  height: 22,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const DeptIcon = ({ id }: { id: string }) => {
+  switch (id) {
+    case 'services':
+      return (
+        <svg {...svgProps}>
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+      );
+    case 'storage':
+      return (
+        <svg {...svgProps}>
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </svg>
+      );
+    case 'downhole':
+      return (
+        <svg {...svgProps}>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="16" />
+          <line x1="8" y1="12" x2="16" y2="12" />
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+        </svg>
+      );
+    case 'automotive':
+      return (
+        <svg {...svgProps}>
+          <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
+          <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
+          <path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" />
+          <line x1="9" y1="17" x2="15" y2="17" />
+          <path d="M3 6h18" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 /* ─── Animation variants ───────────────────────────────────── */
 
@@ -249,7 +296,7 @@ export const TalkToUsWizard = () => {
               aria-label="Close dialog"
               type="button"
             >
-              ✕
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
             </button>
 
             <AnimatePresence mode="wait">
@@ -277,7 +324,7 @@ export const TalkToUsWizard = () => {
                         type="button"
                       >
                         <span className={styles.deptIcon} aria-hidden="true">
-                          {dept.icon}
+                          <DeptIcon id={dept.id} />
                         </span>
                         <div className={styles.deptInfo}>
                           <div className={styles.deptName}>{dept.name}</div>
@@ -375,7 +422,7 @@ export const TalkToUsWizard = () => {
                   {...(prefersReducedMotion ? motionProps : slideLeft)}
                 >
                   <div className={styles.successIcon} aria-hidden="true">
-                    ✓
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><path d="M22 4L12 14.01l-3-3" /></svg>
                   </div>
                   <h2 className={styles.successTitle}>Email Client Opened</h2>
                   <p className={styles.successMsg}>
