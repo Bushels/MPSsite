@@ -11,6 +11,7 @@ import {
   PipeStorageVisual,
 } from '../components/illustrations';
 import { trackLeadEvent } from '../services/analytics';
+import { useTalkToUs } from '../context/TalkToUsContext';
 import styles from './ServicesPrecision.module.css';
 
 /* ═══════════════════════════════════════════════
@@ -133,6 +134,7 @@ const tileReveal = {
    ═══════════════════════════════════════════════ */
 export const ServicesPrecision = () => {
   const { prefersReducedMotion } = useDeviceCapability();
+  const { openWizard } = useTalkToUs();
   const sectionRef = useRef<HTMLElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -210,7 +212,8 @@ export const ServicesPrecision = () => {
       service_name: service.title,
     });
     closeModal();
-  }, [closeModal]);
+    openWizard({ department: 'services', service: service.title });
+  }, [closeModal, openWizard]);
 
   return (
     <section id="services" ref={sectionRef} className={styles.section}>
@@ -348,8 +351,8 @@ export const ServicesPrecision = () => {
                   <span className={styles.modalStatValue}>{expandedService.stat.value}</span>
                   <span className={styles.modalStatLabel}>{expandedService.stat.label}</span>
                 </div>
-                <a
-                  href="#contact"
+                <button
+                  type="button"
                   className={styles.modalCta}
                   onClick={() => handleQuoteRequestClick(expandedService)}
                 >
@@ -357,7 +360,7 @@ export const ServicesPrecision = () => {
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </a>
+                </button>
               </div>
             </motion.div>
           </motion.div>
