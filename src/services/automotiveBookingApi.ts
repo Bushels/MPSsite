@@ -13,11 +13,13 @@ interface AutomotiveBookingErrorPayload {
 
 export class AutomotiveBookingApiError extends Error {
   readonly status: number;
+  readonly isSlotTaken: boolean;
 
   constructor(message: string, status: number) {
     super(message);
     this.name = 'AutomotiveBookingApiError';
     this.status = status;
+    this.isSlotTaken = status === 409;
   }
 }
 
@@ -79,14 +81,14 @@ export const submitAutomotiveBooking = async (
       const errorMessage =
         responseBody && 'error' in responseBody && typeof responseBody.error === 'string'
           ? responseBody.error
-          : 'Booking handoff failed. Call the shop while the integration is finished.';
+          : 'Booking failed. Call the shop while the integration is finished.';
 
       throw new AutomotiveBookingApiError(errorMessage, response.status);
     }
 
     if (!isSubmittedAutomotiveBooking(responseBody)) {
       throw new AutomotiveBookingApiError(
-        'Booking handoff returned an invalid response.',
+        'Booking returned an invalid response.',
         response.status,
       );
     }
@@ -98,7 +100,7 @@ export const submitAutomotiveBooking = async (
     }
 
     throw new AutomotiveBookingApiError(
-      'Booking handoff failed. Call the shop while the integration is finished.',
+      'Booking failed. Call the shop while the integration is finished.',
       500,
     );
   }

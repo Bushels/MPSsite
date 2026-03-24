@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AutomotiveNav } from '../components/AutomotiveNav';
-import { buildAppointmentDays } from '../data/automotive';
+import { buildAppointmentDays, type AppointmentDay } from '../data/automotive';
 import { companyProfile } from '../data/company';
 import { AutomotiveFooter } from '../sections/automotive/AutomotiveFooter';
 import { AutomotiveHero } from '../sections/automotive/AutomotiveHero';
@@ -8,12 +8,32 @@ import { BookingWizard } from '../sections/automotive/BookingWizard';
 import { InStoreProducts } from '../sections/automotive/InStoreProducts';
 import { ServiceCatalog } from '../sections/automotive/ServiceCatalog';
 import { TrustInfo } from '../sections/automotive/TrustInfo';
+import { ChatWidget } from '../components/ChatWidget';
 import { trackEvent, trackLeadEvent } from '../services/analytics';
+import { fetchAvailableAppointmentDays } from '../services/availabilityApi';
 import styles from './AutomotiveSite.module.css';
 
 export const AutomotiveSite = () => {
   const [selectedServiceIds, setSelectedServiceIds] = useState<readonly string[]>([]);
-  const appointmentDays = useMemo(() => buildAppointmentDays(), []);
+
+  // Start with static slots (instant render), then swap in live availability
+  const staticDays = useMemo(() => buildAppointmentDays(), []);
+  const [appointmentDays, setAppointmentDays] = useState<readonly AppointmentDay[]>(staticDays);
+
+  // Fetch real availability from Supabase on mount
+  const refreshAvailability = useCallback(async () => {
+    try {
+      const liveDays = await fetchAvailableAppointmentDays();
+      setAppointmentDays(liveDays);
+    } catch {
+      // Fall back to static days if Supabase is unreachable
+      console.warn('Live availability unavailable — using static slots');
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshAvailability();
+  }, [refreshAvailability]);
 
   const focusBookingHeading = () => {
     const bookingTitle = document.getElementById('booking-title');
@@ -101,6 +121,7 @@ export const AutomotiveSite = () => {
       </div>
 
       <AutomotiveFooter />
+      <ChatWidget />
     </div>
   );
 };

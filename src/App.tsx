@@ -9,6 +9,7 @@ import { ContactBeacon } from './sections/ContactBeacon';
 import { FilmGrain } from './components/FilmGrain';
 import { CustomCursor } from './components/CustomCursor';
 import { TalkToUsWizard } from './components/TalkToUsWizard';
+import { ChatWidget } from './components/ChatWidget';
 import { TalkToUsProvider } from './context/TalkToUsContext';
 import { useLenis } from './hooks/useLenis';
 import { useAdaptiveGlass } from './hooks/useAdaptiveGlass';
@@ -36,6 +37,7 @@ function App() {
           </main>
         </div>
         <TalkToUsWizard />
+        <ChatWidget />
       </TalkToUsProvider>
     </CustomCursor>
   );
