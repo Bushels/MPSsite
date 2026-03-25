@@ -1,79 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { AutomotiveNav } from '../components/AutomotiveNav';
-import { buildAppointmentDays, type AppointmentDay } from '../data/automotive';
+import { useEffect } from 'react';
 import { companyProfile } from '../data/company';
-import { AutomotiveFooter } from '../sections/automotive/AutomotiveFooter';
-import { AutomotiveHero } from '../sections/automotive/AutomotiveHero';
-import { BookingWizard } from '../sections/automotive/BookingWizard';
-import { InStoreProducts } from '../sections/automotive/InStoreProducts';
-import { ServiceCatalog } from '../sections/automotive/ServiceCatalog';
-import { TrustInfo } from '../sections/automotive/TrustInfo';
 import { ChatWidget } from '../components/ChatWidget';
-import { trackEvent, trackLeadEvent } from '../services/analytics';
-import { fetchAvailableAppointmentDays } from '../services/availabilityApi';
+import { trackEvent } from '../services/analytics';
 import styles from './AutomotiveSite.module.css';
 
+/**
+ * Automotive page — Coming Soon placeholder.
+ * Full booking wizard, service catalog, and availability
+ * are built and ready in git history. Swap this back when
+ * the booking backend (Supabase + Resend) is fully configured.
+ */
 export const AutomotiveSite = () => {
-  const [selectedServiceIds, setSelectedServiceIds] = useState<readonly string[]>([]);
-
-  // Start with static slots (instant render), then swap in live availability
-  const staticDays = useMemo(() => buildAppointmentDays(), []);
-  const [appointmentDays, setAppointmentDays] = useState<readonly AppointmentDay[]>(staticDays);
-
-  // Fetch real availability from Supabase on mount
-  const refreshAvailability = useCallback(async () => {
-    try {
-      const liveDays = await fetchAvailableAppointmentDays();
-      setAppointmentDays(liveDays);
-    } catch {
-      // Fall back to static days if Supabase is unreachable
-      console.warn('Live availability unavailable — using static slots');
-    }
-  }, []);
-
-  useEffect(() => {
-    refreshAvailability();
-  }, [refreshAvailability]);
-
-  const focusBookingHeading = () => {
-    const bookingTitle = document.getElementById('booking-title');
-    if (bookingTitle instanceof HTMLElement) {
-      bookingTitle.focus({ preventScroll: true });
-    }
-  };
-
-  const nextAvailableLabel = useMemo(() => {
-    const firstDay = appointmentDays[0];
-    const firstSlot = firstDay?.slots[0];
-
-    if (!firstDay || !firstSlot) {
-      return 'Call for the first opening';
-    }
-
-    return `${firstDay.fullLabel} at ${firstSlot.label}`;
-  }, [appointmentDays]);
-
-  const handleSelectService = (serviceId: string) => {
-    setSelectedServiceIds((currentIds) => {
-      const nextIds = currentIds.includes(serviceId)
-        ? currentIds.filter((id) => id !== serviceId)
-        : [...currentIds, serviceId];
-
-      return nextIds;
-    });
-
-    const shouldJumpToBooking = window.matchMedia('(max-width: 780px)').matches;
-    if (shouldJumpToBooking) {
-      const bookingSection = document.getElementById('booking');
-      bookingSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(focusBookingHeading, 180);
-    }
-  };
-
-  const handleServiceSelectionChange = (serviceIds: readonly string[]) => {
-    setSelectedServiceIds(serviceIds);
-  };
-
   useEffect(() => {
     trackEvent('auto_page_view', {
       source: document.referrer || 'direct',
@@ -82,45 +19,75 @@ export const AutomotiveSite = () => {
 
   return (
     <div className={styles.page}>
-      <AutomotiveNav bookingHref="#booking" />
+      <main
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          padding: '48px 24px',
+          textAlign: 'center',
+        }}
+      >
+        <h1
+          style={{
+            fontFamily: 'var(--font-heading)',
+            fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+            color: 'var(--color-text-primary)',
+            marginBottom: '16px',
+            letterSpacing: '-0.02em',
+          }}
+        >
+          Automotive Services
+        </h1>
 
-      <main className={styles.main}>
-        <AutomotiveHero
-          bookingHref="#booking"
-          nextAvailableLabel={nextAvailableLabel}
-          productsHref="#products"
-        />
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            color: 'var(--color-text-secondary)',
+            maxWidth: '520px',
+            lineHeight: 1.6,
+            marginBottom: '32px',
+          }}
+        >
+          Online booking is coming soon. In the meantime, give us a call to
+          schedule your SGI inspection, oil change, tire service, or general
+          maintenance.
+        </p>
 
-        <ServiceCatalog
-          bookingHref="#booking"
-          selectedServiceIds={selectedServiceIds}
-          onSelectService={handleSelectService}
-        />
-
-        <BookingWizard
-          selectedServiceIds={selectedServiceIds}
-          onSelectedServiceIdsChange={handleServiceSelectionChange}
-        />
-
-        <InStoreProducts bookingHref="#booking" />
-
-        <TrustInfo />
-      </main>
-
-      <div className={styles.mobileBar}>
         <a
           href={companyProfile.primaryPhoneHref}
-          className={styles.mobileCall}
-          onClick={() => trackLeadEvent('auto_call_click', { location: 'mobile_bar' })}
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            color: 'var(--color-text-primary)',
+            background: 'var(--color-cobalt)',
+            padding: '14px 36px',
+            borderRadius: 'var(--radius-button)',
+            border: '1px solid var(--color-border-glow)',
+            boxShadow: 'var(--shadow-glow)',
+            textDecoration: 'none',
+            transition: 'transform 0.2s ease',
+          }}
         >
-          Call
+          Call {companyProfile.primaryPhoneDisplay}
         </a>
-        <a href="#booking" className={styles.mobileBook}>
-          Book now
-        </a>
-      </div>
 
-      <AutomotiveFooter />
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.85rem',
+            color: 'var(--color-text-secondary)',
+            marginTop: '24px',
+          }}
+        >
+          {companyProfile.automotiveLocationLabel}
+        </p>
+      </main>
+
       <ChatWidget />
     </div>
   );

@@ -56,6 +56,21 @@
         document.head.appendChild(script);
       })();
     </script>
+    <script type="module">
+      (function () {
+        const clarityId = import.meta.env.VITE_CLARITY_PROJECT_ID?.trim();
+        if (!clarityId) return;
+
+        window.clarity = window.clarity || function () {
+          (window.clarity.q = window.clarity.q || []).push(arguments);
+        };
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.clarity.ms/tag/' + encodeURIComponent(clarityId);
+        document.head.appendChild(script);
+      })();
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

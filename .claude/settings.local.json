@@ -17,7 +17,14 @@
       "Bash(done)",
       "Bash(wc:*)",
       "WebFetch(domain:dev.to)",
-      "Bash(git -C \"C:\\\\Users\\\\kyle\\\\MPS\\\\MPSsite\" log --oneline --all)"
+      "Bash(git -C \"C:\\\\Users\\\\kyle\\\\MPS\\\\MPSsite\" log --oneline --all)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where npx:*)",
+      "Bash(where vite:*)",
+      "WebSearch",
+      "WebFetch(domain:dev.wix.com)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
