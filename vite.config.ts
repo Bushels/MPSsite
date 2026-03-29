@@ -7,13 +7,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    port: 3000,
   },
   build: {
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        apply: resolve(__dirname, 'apply.html'),
         automotive: resolve(__dirname, 'automotive/index.html'),
       },
     },

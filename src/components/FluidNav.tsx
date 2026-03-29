@@ -8,7 +8,7 @@ import mpsLogo from '../../MPS Logo.png';
 
 const navItems = [
   { label: 'Services', href: '#services' },
-  { label: 'Products', href: '#downhole' },
+  { label: 'Products', href: 'https://wellfi-marketing.vercel.app', external: true },
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
   { label: 'Contact', href: '#contact' },
@@ -94,6 +94,7 @@ export const FluidNav = () => {
                   <MagneticElement strength={0.15}>
                     <a
                       href={item.href}
+                      {...('external' in item && item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                       className={styles.link}
                       onMouseEnter={() => setHoveredIndex(index)}
                       onMouseLeave={() => setHoveredIndex(null)}
@@ -114,7 +115,7 @@ export const FluidNav = () => {
 
             {/* Contact — beacon pulse + "Let's Talk" */}
             <MagneticElement strength={0.18}>
-              <button type="button" className={styles.contactBtn} onClick={openWizard}>
+              <button type="button" className={styles.contactBtn} onClick={() => openWizard()}>
                 <span className={styles.beacon}>
                   <span className={styles.beaconDot} />
                   {!prefersReducedMotion && <span className={styles.beaconPing} />}
@@ -174,6 +175,7 @@ export const FluidNav = () => {
                     >
                       <a
                         href={item.href}
+                        {...('external' in item && item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                         className={styles.mobileLink}
                         onClick={(e) => {
                           if (item.label === 'Contact') {

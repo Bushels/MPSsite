@@ -15,7 +15,6 @@
 
 .intro {
   max-width: 760px;
-  margin-bottom: 48px;
 }
 
 .label {
@@ -46,153 +45,47 @@
   -webkit-text-fill-color: transparent;
 }
 
-.subtitle,
-.emptyCopy {
+.subtitle {
+  margin-bottom: 32px;
   font-family: var(--font-body);
   font-size: 0.98rem;
   line-height: 1.7;
   color: rgba(203, 213, 225, 0.82);
 }
 
-/* ─── Role List ─── */
+/* ─── Apply Button ─── */
 
-.roleList {
-  display: grid;
-  gap: 16px;
-}
-
-.roleCard {
-  /* Reset LiteCard's built-in entrance so layout stays clean */
-}
-
-.roleLink {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
+.applyBtn {
+  display: inline-flex;
   align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.roleBody {
-  display: flex;
-  flex-direction: column;
   gap: 10px;
-  min-width: 0;
-}
-
-.roleTitle {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 800;
-  color: #f8fafc;
-}
-
-.roleSummary {
+  min-height: 52px;
+  padding: 0 28px;
+  border-radius: 14px;
+  border: 1px solid rgba(96, 165, 250, 0.22);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   font-family: var(--font-body);
   font-size: 0.92rem;
-  line-height: 1.65;
-  color: rgba(203, 213, 225, 0.8);
-}
-
-.roleMetaRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.roleMetaChip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 34px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.05);
-  font-family: var(--font-body);
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: rgba(191, 219, 254, 0.82);
-}
-
-.roleCta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 42px;
-  padding: 0 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(96, 165, 250, 0.16);
-  background: rgba(37, 99, 235, 0.12);
-  font-family: var(--font-body);
-  font-size: 0.82rem;
   font-weight: 800;
-  color: #f8fafc;
-  white-space: nowrap;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.roleLink:hover .roleCta {
-  background: rgba(37, 99, 235, 0.22);
-  border-color: rgba(96, 165, 250, 0.3);
-}
-
-/* ─── Loading & Empty States ─── */
-
-.loadingStack {
-  display: grid;
-  gap: 16px;
-}
-
-.loadingItem {
-  height: 104px;
-  border-radius: 18px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 100%);
-  background-size: 200% 100%;
-  animation: loadingSweep 1.8s ease-in-out infinite;
-}
-
-@keyframes loadingSweep {
-  0% { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
-}
-
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 48px 0;
-}
-
-.emptyTitle {
-  font-family: var(--font-body);
-  font-size: 1.02rem;
-  font-weight: 800;
-  color: #f8fafc;
-}
-
-.inlineLink {
-  color: rgba(96, 165, 250, 0.9);
+  color: #fff;
   text-decoration: none;
-  transition: color 0.2s ease;
+  letter-spacing: 0.02em;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
 }
 
-.inlineLink:hover {
-  color: #60a5fa;
+.applyBtn:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-color: rgba(96, 165, 250, 0.4);
+  transform: translateY(-1px);
 }
 
-/* ─── Focus ─── */
-
-.roleLink:focus-visible {
+.applyBtn:focus-visible {
   outline: 2px solid rgba(96, 165, 250, 0.62);
   outline-offset: 3px;
-  border-radius: 18px;
 }
 
-.inlineLink:focus-visible {
-  outline: 2px solid rgba(96, 165, 250, 0.62);
-  outline-offset: 2px;
+.applyBtn svg {
+  flex-shrink: 0;
 }
 
 /* ─── Responsive ─── */
@@ -200,21 +93,5 @@
 @media (max-width: 720px) {
   .section {
     padding: 88px 0 76px;
-  }
-
-  .roleLink {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .roleCta {
-    width: 100%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loadingItem {
-    animation: none;
   }
 }

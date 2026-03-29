@@ -334,22 +334,6 @@ export const ContactBeacon = () => {
                   <span className={styles.contactPrefix}>FAX</span>
                   <span className={styles.contactDetail}>{companyProfile.faxDisplay}</span>
                 </div>
-                <div className={styles.contactRow}>
-                  <span className={styles.contactPrefix}>COM</span>
-                  <a
-                    href={companyProfile.primaryEmailHref}
-                    className={styles.contactLink}
-                    onClick={() =>
-                      trackLeadEvent('contact_click', {
-                        contact_method: 'email',
-                        cta_location: 'contact_panel_details',
-                        link_text: companyProfile.primaryEmail,
-                      })
-                    }
-                  >
-                    {companyProfile.primaryEmail}
-                  </a>
-                </div>
               </LiteCard>
             </motion.div>
 

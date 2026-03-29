@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { companyProfile } from '../data/company';
-import { ChatWidget } from '../components/ChatWidget';
 import { trackEvent } from '../services/analytics';
 import styles from './AutomotiveSite.module.css';
 
@@ -88,7 +87,6 @@ export const AutomotiveSite = () => {
         </p>
       </main>
 
-      <ChatWidget />
     </div>
   );
 };
