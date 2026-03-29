@@ -8,7 +8,7 @@ import mpsLogo from '../../MPS Logo.png';
 
 const navItems = [
   { label: 'Services', href: '#services' },
-  { label: 'Products', href: 'https://wellfi-marketing.vercel.app', external: true },
+  { label: 'Products', href: '/wellfi' },
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
   { label: 'Contact', href: '#contact' },
