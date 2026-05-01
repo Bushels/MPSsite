@@ -31,13 +31,14 @@ Review visual quality for the MPS Group site. Catch inconsistencies that weaken 
 
 ### Spacing
 
-- Desktop sections should feel generous, not cramped.
-- Mobile reductions should still preserve air and hierarchy.
+- Section vertical padding on desktop is at least `--section-padding-y` (or its CSS-Modules equivalent in `variables.css`); flag any section using ad-hoc padding values that diverge from the token.
+- Mobile reductions should still leave the section header at least one line of breathing space above the first content block; flag stacked headings that touch a CTA without a separator.
+- Internal grid gaps should reuse `--gap-*` tokens; flag bare pixel values that don't appear in `variables.css`.
 
 ### Motion
 
-- Staggers should support reading flow, not fire all at once.
-- Hover and transition timing should remain consistent across components.
+- Stagger delays should fall between 60ms and 140ms per item; flag bursts where every child fires at the same `delay`.
+- Hover and transition durations should reuse the existing easing/duration tokens; flag inline `transition: 200ms ease` style strings that don't reference a token.
 
 ## What to flag
 
@@ -52,7 +53,7 @@ Review visual quality for the MPS Group site. Catch inconsistencies that weaken 
 
 For each finding, provide:
 
-- file and approximate location
+- `file:line` reference (or `file:line-range` for a multi-line concern). Do not write "approximate location" or "around the top of …"; if you can't pin a line, the finding is not actionable enough to ship.
 - severity: `CRITICAL`, `MEDIUM`, or `LOW`
-- a concise visual explanation
-- a specific design recommendation
+- the user-visible problem in one sentence
+- a specific design recommendation, citing the design anchor or token that should apply
