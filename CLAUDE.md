@@ -28,6 +28,7 @@ Read the persona at `.claude/agents/<name>.md` before invoking — each one has 
 ## Skills in this repo
 
 - `mps-booking-system` (`.claude/skills/mps-booking-system/SKILL.md`) — Supabase-backed automotive booking flow, OpenRouter chat widget. Reference this when touching `api/automotive-booking.ts`, `api/chat.ts`, `src/services/availabilityApi.ts`, or the `bookings` table.
+- `mps-wix-sdk` (`.claude/skills/mps-wix-sdk/SKILL.md`) — SDK cookbook for the Wix headless integration: package installs, OAuth client init, querying CMS collections, querying Bookings services. Reference this when writing code that imports from `@wix/sdk`, `@wix/data`, `@wix/bookings`, `@wix/calendar`, or `@wix/redirects`. Decision rules for *whether* to use Wix at all live in the `wix-headless-agent` persona; volatile facts (plan tier, prices, dashboard URLs) live in `docs/wix-headless-reference.md`.
 
 Do not load skill files with `Read` — invoke them through the `Skill` tool so the runtime resolves them correctly.
 
