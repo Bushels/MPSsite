@@ -1,3 +1,8 @@
+---
+name: mps-booking-system
+description: Reference for the MPS Group automotive booking system — Supabase-backed bookings table, Vercel Functions handlers, OpenRouter chat widget, and Resend email confirmations. Use when troubleshooting booking flow failures, modifying slot availability, updating the service catalog, editing the chat widget system prompt, or touching api/automotive-booking.ts, api/chat.ts, src/services/availabilityApi.ts, src/lib/supabaseClient.ts, or the bookings table.
+---
+
 # MPS Automotive Booking System
 
 Reference skill for the MPS Group automotive booking system. Use this when troubleshooting bookings, modifying availability, updating services, or working with the chat widget.

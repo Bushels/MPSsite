@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const cwd = process.cwd();
 const args = process.argv.slice(2);
-const targets = args.length > 0 ? args : ['.agent/skills', '.claude/agents'];
+const targets = args.length > 0 ? args : ['.claude/agents', '.claude/skills'];
 
 const skillNamePattern = /^[a-z0-9-]+$/;
 const reservedSkillPrefixPattern = /^(claude|anthropic)(-|$)/;

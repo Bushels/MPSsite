@@ -1,0 +1,26 @@
+# Enforce LF in the repo regardless of platform.
+# Working-tree line endings are still platform-native on checkout for text files
+# unless overridden per-pattern below. This matches the Linux-based Vercel
+# build environment.
+* text=auto eol=lf
+
+# Markdown should stay LF on disk too — keeps cross-platform diffs clean
+# and avoids CRLF/LF noise like the .gitignore drift seen in 2026-05-01 cleanup.
+*.md text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Binaries — never normalize.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary
