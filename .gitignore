@@ -26,6 +26,7 @@ dist-ssr
 # Git
 .git
 .agent
+.agents
 .gemini
 temp_skills
 temp_stitch
@@ -35,3 +36,6 @@ output/
 
 .vercel
 .env*.local
+
+# Local Claude permissions/settings (per-user, not for the repo)
+.claude/settings.local.json
