@@ -1,0 +1,9 @@
+# Repo-level Codex defaults for mps-corporate-site.
+# Marketing site — React 18 + Vite 5 + TypeScript + Supabase.
+
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+
+[windows]
+sandbox = "elevated"
