@@ -391,7 +391,7 @@ export const HeroUltimate = () => {
 
               <motion.div variants={fadeUp} className={styles.descriptorRow}>
                 <span className={styles.descriptorLine} />
-                <span className={styles.descriptor}>We make heavy oil flow.</span>
+                <span className={styles.descriptor}>Surface fabrication. Downhole innovation.</span>
                 <span className={styles.descriptorLine} />
               </motion.div>
 

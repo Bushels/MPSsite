@@ -14,7 +14,7 @@ The priority is to make the public site match the real MPS business:
 - Emerging business: WellFi and future downhole technology
 - Future concept: Pipe Vault / yard storage
 - Side flow: automotive
-- Public brand line: `We make heavy oil flow.`
+- Public brand line: `Surface fabrication. Downhole innovation.`
 
 ## Evidence Sources
 
@@ -87,11 +87,11 @@ It can remain available, but it should not drive homepage positioning, site meta
 
 ## Branding Decision
 
-- Current public line: `We make heavy oil flow.`
-- Older line found during cleanup: `Surface fabrication. Downhole innovation.`
+- Current public line: `Surface fabrication. Downhole innovation.`
+- Retired interim line: `We make heavy oil flow.`
 - Retired temporary line: `Surface facilities. WellFi downhole technology.`
 
-Use `We make heavy oil flow.` as the primary brand/motto because it is marketable, operationally true, and broad enough for surface facilities plus emerging WellFi/downhole work. Use service copy and metadata to carry the specific information.
+Use `Surface fabrication. Downhole innovation.` as the primary brand/motto because it is marketable, concise, and clearly carries both the established surface-facilities business and the emerging WellFi/downhole direction. Use service copy and metadata to carry the specific information.
 
 ## Guardrails
 

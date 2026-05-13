@@ -13,7 +13,7 @@ Current truth about this project. Updated at the start and end of any meaningful
 
 ## Active task
 
-**MPS public-site audit wrap-up.** The current local patch is deployed to production on `mpsgroup.energy`; this wrap-up documents archived surfaces, Wix/domain boundaries, and final branding before the next phase. Tracking plan: `docs/plans/2026-05-13-site-audit-improvement-plan.md`.
+**MPS public-site audit wrap-up.** The current production site is aligned around Surface Facilities first, WellFi/downhole as emerging, and the restored hero motto `Surface fabrication. Downhole innovation.` Tracking plan: `docs/plans/2026-05-13-site-audit-improvement-plan.md`.
 
 ## Known blockers / open decisions
 
@@ -33,7 +33,7 @@ Current truth about this project. Updated at the start and end of any meaningful
 - The current site-audit plan uses the MPS agents as checklists: section-builder for UI edits, design/accessibility/performance reviewers for regression passes, booking-system only for automotive/chat files, and Wix only for optional backend plumbing.
 - 2026-05-13 local patch: homepage metadata, JSON-LD, `llms.txt`, Services section, hero descriptor, About copy, nav label, inquiry routing, and `/api/chat` are aligned to Surface Facilities first and WellFi as emerging downhole technology. `npm run lint` and `npm run build` pass.
 - 2026-05-13 production deploy: deployment `https://mps-group-a9ktt5dnn-kyles-projects-d3ab6818.vercel.app` is live on `https://mpsgroup.energy/`. Live checks passed for homepage title/canonical/OG URL/description, `robots.txt`, `sitemap.xml`, `llms.txt`, `www.mpsgroup.energy` root redirect, hero motto, and `/api/chat` POST returning 410.
-- 2026-05-13 wrap-up: archived old chat/automotive/Pipe Vault/custom-cursor behavior in `docs/archive/2026-05-13-legacy-feature-archive.md`; tightened Wix agent/skill boundary; restored hero motto to `We make heavy oil flow.` `npm run audit:agents`, `npm run lint`, `npm run build`, and local desktop/mobile Edge smoke checks passed.
+- 2026-05-13 wrap-up: archived old chat/automotive/Pipe Vault/custom-cursor behavior in `docs/archive/2026-05-13-legacy-feature-archive.md`; tightened Wix agent/skill boundary; restored hero motto to `Surface fabrication. Downhole innovation.`
 - The legacy stitch scaffold left behind 60+ unrelated Flutter/Lit/Dart skills under `.agent/skills/` (already gitignored). All 133 audit warnings come from this directory; deleting it would zero out audit noise.
 - `vercel.json` contains the `/wellfi` rewrite. Vercel CLI is available through `npx vercel` in this environment.
 

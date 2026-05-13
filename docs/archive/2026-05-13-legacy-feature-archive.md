@@ -45,7 +45,7 @@ Status: archived / disabled to prevent regression
 ## Branding note
 
 - Retired temporary hero line: `Surface facilities. WellFi downhole technology.`
-- Older line found in history: `Surface fabrication. Downhole innovation.`
-- Current preferred public line: `We make heavy oil flow.`
+- Retired interim line: `We make heavy oil flow.`
+- Current preferred public line: `Surface fabrication. Downhole innovation.`
 
-`We make heavy oil flow.` is more marketable, less cramped, and broad enough to cover the real surface-facilities business while leaving room for WellFi and future downhole work.
+`Surface fabrication. Downhole innovation.` is the current preferred hero motto because it is sharper, more marketable, and clearly carries both the established surface-facilities business and the emerging WellFi/downhole direction.
