@@ -7,7 +7,7 @@ import { companyProfile, getCurrentYear } from '../data/company';
 import { MagneticElement } from '../components/MagneticElement';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import { trackLeadEvent } from '../services/analytics';
-import { useTalkToUs } from '../context/TalkToUsContext';
+import { useTalkToUs } from '../context/talkToUs';
 import styles from './ContactBeacon.module.css';
 
 /* ═══════════════════════════════════════════════════════════════

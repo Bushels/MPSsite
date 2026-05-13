@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTalkToUs } from '../context/TalkToUsContext';
+import { useTalkToUs } from '../context/talkToUs';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import { companyProfile } from '../data/company';
 import { trackLeadEvent } from '../services/analytics';
@@ -22,28 +22,26 @@ interface Department {
 const DEPARTMENTS: Department[] = [
   {
     id: 'services',
-    name: 'Services & Fabrication',
-    desc: 'Fab, Welding, Pipefitting, Modular, Machining',
+    name: 'Surface Facilities',
+    desc: 'SAGD plant work, piping, supports',
   },
   {
-    id: 'storage',
-    name: 'Pipe Storage',
-    desc: 'Secured yard, logistics, inventory',
-    redirect: '/storage/',
-  },
-  {
-    id: 'downhole',
-    name: 'Downhole Tools',
-    desc: 'Sand control & monitoring solutions',
+    id: 'wellfi',
+    name: 'WellFi / Downhole Technology',
+    desc: 'First MPS downhole product',
     redirect: '/wellfi/',
   },
   {
-    id: 'automotive',
-    name: 'Automotive',
-    desc: 'SGI accredited vehicle maintenance',
-    redirect: '/automotive/',
+    id: 'general',
+    name: 'General Inquiry',
+    desc: 'Purchasing, careers, or other questions',
   },
 ];
+
+const DEFAULT_DEPARTMENT = DEPARTMENTS[0];
+
+const getDepartmentById = (id: string | undefined) =>
+  DEPARTMENTS.find((dept) => dept.id === id) ?? DEFAULT_DEPARTMENT;
 
 /* ─── Department SVG icons (stroke line art, matching site aesthetic) ── */
 const svgProps = {
@@ -65,15 +63,7 @@ const DeptIcon = ({ id }: { id: string }) => {
           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
         </svg>
       );
-    case 'storage':
-      return (
-        <svg {...svgProps}>
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-          <line x1="12" y1="22.08" x2="12" y2="12" />
-        </svg>
-      );
-    case 'downhole':
+    case 'wellfi':
       return (
         <svg {...svgProps}>
           <circle cx="12" cy="12" r="10" />
@@ -82,14 +72,11 @@ const DeptIcon = ({ id }: { id: string }) => {
           <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
         </svg>
       );
-    case 'automotive':
+    case 'general':
       return (
         <svg {...svgProps}>
-          <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
-          <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" />
-          <path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2" />
-          <line x1="9" y1="17" x2="15" y2="17" />
-          <path d="M3 6h18" />
+          <path d="M4 5h16v11H7l-3 3V5z" />
+          <path d="M8 9h8M8 12h5" />
         </svg>
       );
     default:
@@ -148,13 +135,20 @@ export const TalkToUsWizard = () => {
   const triggerRef = useRef<HTMLElement | null>(null);
 
   // Determine initial step and message based on context
-  const skipToContact = options?.department === 'services';
+  const inferredDepartmentId =
+    options?.department ??
+    (options?.service
+      ? (options.service.toLowerCase().includes('wellfi') ? 'wellfi' : 'services')
+      : undefined);
+  const skipToContact = Boolean(inferredDepartmentId);
   const initialMessage = options?.service ? `Regarding: ${options.service}\n\n` : '';
+  const initialDepartment = getDepartmentById(inferredDepartmentId);
 
   const [step, setStep] = useState<Step>(skipToContact ? 'contact' : 'department');
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [message, setMessage] = useState(initialMessage);
+  const [selectedDepartment, setSelectedDepartment] = useState<Department>(initialDepartment);
   const [submitted, setSubmitted] = useState(false);
 
   // Reset state when modal opens/closes
@@ -165,13 +159,14 @@ export const TalkToUsWizard = () => {
       setName('');
       setCompany('');
       setMessage(initialMessage);
+      setSelectedDepartment(initialDepartment);
       setSubmitted(false);
       trackLeadEvent('wizard_open', { source: options?.service ?? 'direct' });
     } else {
       // Return focus on close
       triggerRef.current?.focus();
     }
-  }, [isOpen, skipToContact, initialMessage, options?.service]);
+  }, [isOpen, skipToContact, initialMessage, initialDepartment, options?.service]);
 
   // Body scroll lock
   useEffect(() => {
@@ -229,12 +224,14 @@ export const TalkToUsWizard = () => {
     (dept: Department) => {
       trackLeadEvent('wizard_department_select', { department: dept.id });
       if (dept.redirect) {
+        closeWizard();
         window.location.href = dept.redirect;
       } else {
+        setSelectedDepartment(dept);
         setStep('contact');
       }
     },
-    []
+    [closeWizard]
   );
 
   const handleSubmit = useCallback(
@@ -243,6 +240,7 @@ export const TalkToUsWizard = () => {
       if (!name.trim() || !message.trim()) return;
 
       trackLeadEvent('wizard_email_submit', {
+        department: selectedDepartment.id,
         has_company: !!company.trim(),
         message_length: message.trim().length,
       });
@@ -250,12 +248,12 @@ export const TalkToUsWizard = () => {
       const subject = encodeURIComponent(
         `Inquiry from ${name.trim()}${company.trim() ? ` — ${company.trim()}` : ''}`
       );
-      const body = encodeURIComponent(message.trim());
+      const body = encodeURIComponent(`Department: ${selectedDepartment.name}\n\n${message.trim()}`);
       window.location.href = `mailto:${companyProfile.primaryEmail}?subject=${subject}&body=${body}`;
 
       setSubmitted(true);
     },
-    [name, company, message]
+    [name, company, message, selectedDepartment]
   );
 
 
@@ -358,7 +356,7 @@ export const TalkToUsWizard = () => {
                   <p className={styles.stepLabel}>
                     {skipToContact ? 'Get in Touch' : 'Step 2 of 2'}
                   </p>
-                  <h2 className={styles.title}>Services & Fabrication</h2>
+                  <h2 className={styles.title}>{selectedDepartment.name}</h2>
 
                   <form className={styles.form} onSubmit={handleSubmit} noValidate>
                     <div className={styles.fieldGroup}>

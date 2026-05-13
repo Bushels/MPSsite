@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+html {
+  position: relative;
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);

@@ -7,6 +7,10 @@ description: SDK cookbook for the MPS Group Wix headless integration — package
 
 Code-level patterns for working with the Wix headless SDK in the MPS Group site. Decision rules and escalation live in `.claude/agents/wix-headless-agent.md`. Account context, plan tier, and dashboard URLs live in `docs/wix-headless-reference.md`.
 
+## Scope boundary
+
+This skill is for SDK plumbing only. Do not use it as justification to move the canonical `mpsgroup.energy` public site into Wix. The React site remains the public surface; Wix is optional CMS, Bookings, OAuth, or CRM infrastructure when those features justify it.
+
 ## Required packages
 
 ### Core SDK + CMS

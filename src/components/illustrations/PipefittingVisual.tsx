@@ -102,9 +102,12 @@ export const PipefittingVisual = ({ isActive, reduced }: Props) => {
       {[0, 1, 2].map(i => (
         <motion.circle
           key={`flow-a-${i}`}
+          cx="40"
+          cy="100"
           r="2"
           fill="rgba(96,165,250,0.8)"
           filter="url(#pipeGlow)"
+          initial={{ cx: 40, cy: 100 }}
           animate={{
             cx: [40, 70, 100],
             cy: [100, 75, 55],
@@ -121,9 +124,12 @@ export const PipefittingVisual = ({ isActive, reduced }: Props) => {
       {[0, 1, 2].map(i => (
         <motion.circle
           key={`flow-b-${i}`}
+          cx="100"
+          cy="55"
           r="2"
           fill="rgba(96,165,250,0.8)"
           filter="url(#pipeGlow)"
+          initial={{ cx: 100, cy: 55 }}
           animate={{
             cx: [100, 130, 160],
             cy: [55, 75, 100],
@@ -141,6 +147,8 @@ export const PipefittingVisual = ({ isActive, reduced }: Props) => {
       {/* Pressure gauge at junction */}
       <motion.g transform="translate(100, 55)">
         <motion.circle
+          cx="0"
+          cy="0"
           r="14"
           stroke="rgba(96,165,250,0.2)"
           strokeWidth="0.8"

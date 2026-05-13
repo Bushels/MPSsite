@@ -4,29 +4,38 @@ Current truth about this project. Updated at the start and end of any meaningful
 
 > Append-only history goes in `docs/journal/YYYY-MM.md`. Persistent rules go in `AGENTS.md` / `CLAUDE.md`.
 
-## Last verified commit
+## Last verified release
 
-`f55ef8d` — refactor(wix): split persona, reference, and SDK skill
+- Production deploy: `https://mps-group-ajvyvm0df-kyles-projects-d3ab6818.vercel.app`
+- Canonical URL: `https://mpsgroup.energy/`
+- Verification date: 2026-05-13
+- Previous committed baseline: `f55ef8d` - refactor(wix): split persona, reference, and SDK skill
 
 ## Active task
 
-**No active task.** The two-round portfolio cleanup is complete; ready to move on to the next piece of work. WIP changes in the working tree are unrelated and unowned by this cleanup.
+**MPS public-site audit wrap-up.** The current local patch is deployed to production on `mpsgroup.energy`; this wrap-up documents archived surfaces, Wix/domain boundaries, and final branding before the next phase. Tracking plan: `docs/plans/2026-05-13-site-audit-improvement-plan.md`.
 
 ## Known blockers / open decisions
 
-- **In-flight WIP** — 14 modified + 3 untracked files in the working tree are unrelated to the cleanup work. They include `ChatWidget.tsx` (deletion in progress), `HeroUltimate.tsx` motion edits, the new `src/context/talkToUs.ts` extraction, and `.vercelignore` / `public/llms.txt` additions. These were never touched by cleanup commits; landing or shelving them is the next decision.
-- **`.codex/config.toml`** — still not scaffolded. The portfolio-cleanup prompt suggests scaffolding one with `model = "gpt-5.5"` / `reasoning_effort = "medium"` when the project actively uses Codex. Skip until that point.
+- **Legacy domain ownership** - `mpsgroup.ca` and `www.mpsgroup.ca` still resolve to Wix. Vercel config includes redirects, but they cannot apply until those hosts point at the Vercel project or are redirected at the registrar/Wix layer.
+- **Service taxonomy correction** - Surface Facilities is the primary public identity; WellFi/downhole is emerging; Pipe Vault / yard storage is a future concept; automotive is separate.
+- **Wix architecture boundary** - Wix is optional backend plumbing only. `mpsgroup.energy` should stay on Vercel unless a specific Wix feature justifies changing the architecture.
 
 ## Next action
 
-1. **Decide what to do about the in-flight WIP.** Options: stage and commit (probably as several focused commits); reset the affected files back to HEAD; or leave them open for the next session.
-2. **Pick the next feature/task.** Cleanup is closed out; future agents starting here should read `AGENTS.md`, this file, and the most recent journal month, then pick up from whatever the user names.
+1. **Review WellFi production route.** Confirm `/wellfi` copy, metadata, route behavior, and stale claims.
+2. **Decide legacy-domain handling later.** Keep Porkbun as registrar/DNS owner for `mpsgroup.energy` and point DNS to Vercel when ready; redirect `mpsgroup.ca` from Wix/registrar to `https://mpsgroup.energy/`.
+3. **Prepare the AI guide content map.** Use approved site sections only, then wire lead/email handoff.
 
 ## Recent context (rolling, not history)
 
 - The 5 MPS subagents and 1 skill (`mps-booking-system`) are already at canonical `.claude/` paths and pass `npm run audit:agents` cleanly.
+- The current site-audit plan uses the MPS agents as checklists: section-builder for UI edits, design/accessibility/performance reviewers for regression passes, booking-system only for automotive/chat files, and Wix only for optional backend plumbing.
+- 2026-05-13 local patch: homepage metadata, JSON-LD, `llms.txt`, Services section, hero descriptor, About copy, nav label, inquiry routing, and `/api/chat` are aligned to Surface Facilities first and WellFi as emerging downhole technology. `npm run lint` and `npm run build` pass.
+- 2026-05-13 production deploy: deployment `https://mps-group-ajvyvm0df-kyles-projects-d3ab6818.vercel.app` is live on `https://mpsgroup.energy/`. Live checks passed for homepage title/canonical/OG URL/description, `robots.txt`, `sitemap.xml`, `llms.txt`, `www.mpsgroup.energy` root redirect, and `/api/chat` POST returning 410.
+- 2026-05-13 wrap-up: archived old chat/automotive/Pipe Vault/custom-cursor behavior in `docs/archive/2026-05-13-legacy-feature-archive.md`; tightened Wix agent/skill boundary; restored hero motto to `We make heavy oil flow.` `npm run audit:agents`, `npm run lint`, `npm run build`, and local desktop/mobile Edge smoke checks passed.
 - The legacy stitch scaffold left behind 60+ unrelated Flutter/Lit/Dart skills under `.agent/skills/` (already gitignored). All 133 audit warnings come from this directory; deleting it would zero out audit noise.
-- `vercel.json` contains the `/wellfi` rewrite (most recent commit). No Vercel CLI is installed locally — `vercel deploy`, `vercel env pull`, and `vercel logs` are unavailable from this session.
+- `vercel.json` contains the `/wellfi` rewrite. Vercel CLI is available through `npx vercel` in this environment.
 
 ## Follow-up plans
 

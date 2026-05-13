@@ -223,9 +223,9 @@ export const AboutMPS = () => {
 
           <motion.p className={styles.description} variants={fadeUpSlow}>
             From our roots in Pierceland, Saskatchewan, MPS Group has grown into
-            a trusted name in oil and gas surface facility fabrication. We build
-            the infrastructure that keeps production flowing — from pipe to
-            wellhead.
+            a trusted name in heavy-oil surface facility fabrication. We build
+            plant packages, piping, supports, and field-ready execution that
+            keep production flowing.
           </motion.p>
         </motion.div>
 
@@ -245,8 +245,8 @@ export const AboutMPS = () => {
                   Saskatchewan, MPS Group operates from 136 acres of secured
                   facilities with direct access to Western Canada&apos;s oil and
                   gas infrastructure. We specialize in surface facility
-                  fabrication, downhole tools, and comprehensive industrial
-                  services.
+                  fabrication, piping and supports, plant execution, and WellFi
+                  downhole technology.
                 </p>
 
                 <div className={styles.certSection} aria-label="Compliance platforms and safety memberships">

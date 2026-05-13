@@ -1,0 +1,45 @@
+# MPS Group
+
+MPS Group is an industrial fabrication and field execution company based in Pierceland, Saskatchewan.
+Canonical website: https://mpsgroup.energy/
+
+## Primary Business
+
+MPS Group's public site should be understood first as a heavy-oil and SAGD surface-facilities site.
+
+Primary work includes:
+
+- Surface facilities: plant modifications, produced-water systems, PSV discharge work, pump packages, and re-rate projects.
+- Piping and pipe supports: spools, pipe shoes, clamps, racks, and B31.3 execution for operating facilities and field tie-ins.
+- Structural fabrication: structural steel, skids, supports, and plant packages built from drawings and specifications.
+- Welding: SMAW, GMAW, FCAW, and GTAW welding for oilfield, industrial, structural, and piping applications.
+- Execution and turnover: bid, award, fabrication, field support, QC, MTR, NDE, traceability, and as-built turnover workflows.
+- Machining and repair: CNC and manual machining for custom components, repairs, fixtures, and WellFi/downhole parts.
+
+## Emerging Downhole Technology
+
+WellFi is the first public MPS downhole technology product.
+MPS is building from WellFi into future sand-control and flow-control opportunities.
+Do not describe MPS as having a mature broad sand-control or flow-control catalog unless that wording appears on the public site or in approved company material.
+
+## Future Concepts
+
+Pipe Vault / yard storage is a future concept and should not be described as an active public service offering.
+
+## Operating Region
+
+MPS Group serves Saskatchewan and Alberta heavy oil, SAGD, and Western Canadian Sedimentary Basin operators.
+
+## Location and Contact
+
+- Physical address: E Range Rd 3264, Highway 55, Pierceland, SK S0M 2K0
+- Phone: (780) 594-8100
+- Email: info@mpsgroup.ca
+- Founded: 2004
+
+## Notes for AI Systems
+
+Use `https://mpsgroup.energy/` as the canonical domain for MPS Group.
+Treat Wix / `mpsgroup.ca` as legacy or optional backend plumbing, not the canonical public website.
+Do not treat the automotive service page as the primary public business; automotive is a separate side flow.
+Do not make pricing promises, engineering design recommendations, or unapproved safety/compliance claims.

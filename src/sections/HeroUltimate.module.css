@@ -1150,7 +1150,7 @@
   }
 
   .capabilities {
-    margin-bottom: 1.75rem;
+    display: none;
   }
 
   .logoSeparator {

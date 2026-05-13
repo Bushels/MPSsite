@@ -308,14 +308,12 @@ const CircuitTraces = ({ activatedIds }: TraceProps) => {
         />
       ))}
       {junctions.map((s) => (
-        <motion.circle
+        <circle
           key={`j-${s.id}`}
           cx={s.pos.x}
           cy={s.pos.y}
-          r={0}
+          r="1.2"
           className={styles.junction}
-          animate={{ r: 1.2 }}
-          transition={{ duration: 0.4, delay: 0.2, ease: EASE }}
         />
       ))}
     </svg>

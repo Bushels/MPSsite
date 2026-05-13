@@ -123,6 +123,7 @@ export const WeldingVisual = ({ isActive, reduced }: Props) => {
           cx="100" cy="100"
           r={1.2 + (i % 3) * 0.4}
           fill="rgba(249,115,22,0.8)"
+          initial={{ cx: 100, cy: 100 }}
           animate={isActive
             ? {
                 cx: [100, 100 + spark.endX],

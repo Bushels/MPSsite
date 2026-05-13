@@ -8,10 +8,9 @@ import {
   ModularVisual,
   MachiningVisual,
   DownholeVisual,
-  PipeStorageVisual,
 } from '../components/illustrations';
 import { trackLeadEvent } from '../services/analytics';
-import { useTalkToUs } from '../context/TalkToUsContext';
+import { useTalkToUs } from '../context/talkToUs';
 import styles from './ServicesPrecision.module.css';
 
 /* ═══════════════════════════════════════════════
@@ -29,66 +28,66 @@ interface Service {
 
 const services: Service[] = [
   {
-    id: 'fabrication',
-    title: 'Fabrication',
-    subtitle: 'Custom Surface Facilities',
+    id: 'surface-facilities',
+    title: 'Surface Facilities',
+    subtitle: 'SAGD & Heavy-Oil Plant Work',
     description:
-      'Custom oil and gas surface facility fabrication — vessels, skids, and structural steel built to spec with CWB-certified precision.',
-    stat: { value: 'CWB', label: 'Certified' },
-    Visual: FabricationVisual,
+      'Heavy-oil and SAGD surface-facility execution for plant modifications, produced-water systems, PSV discharge work, pump packages, and re-rate projects.',
+    stat: { value: 'SAGD', label: 'Surface' },
+    Visual: ModularVisual,
   },
   {
     id: 'pipefitting',
-    title: 'Pipefitting',
-    subtitle: 'Precision Routing',
+    title: 'Piping & Supports',
+    subtitle: 'Spools, Shoes, Clamps',
     description:
-      'Precision pipe installation and routing for production facilities, from small bore to large diameter. B31.3 code compliant across every joint.',
-    stat: { value: 'B31.3', label: 'Code Compliant' },
+      'Piping, pipe supports, shoes, clamps, racks, and B31.3 execution for operating facilities, field tie-ins, and fabrication packages.',
+    stat: { value: 'B31.3', label: 'Code Work' },
     Visual: PipefittingVisual,
+  },
+  {
+    id: 'fabrication',
+    title: 'Structural Fabrication',
+    subtitle: 'Shop-Built Packages',
+    description:
+      'Structural steel, skids, supports, and plant packages built from drawings, specifications, and turnover requirements at the Pierceland facility.',
+    stat: { value: 'CWB', label: 'Certified' },
+    Visual: FabricationVisual,
   },
   {
     id: 'welding',
     title: 'Welding',
     subtitle: 'Multi-Process Expertise',
     description:
-      'Certified welding services across all processes — SMAW, GMAW, FCAW, GTAW — for critical applications. Two decades of field-proven reliability.',
+      'Certified welding services across SMAW, GMAW, FCAW, and GTAW processes for oilfield, industrial, structural, and piping applications.',
     stat: { value: '20+', label: 'Years' },
     Visual: WeldingVisual,
   },
   {
-    id: 'modular',
-    title: 'Modular Fabrication & Assembly',
-    subtitle: 'On-Site & Off-Site Execution',
+    id: 'turnover',
+    title: 'Execution & Turnover',
+    subtitle: 'QC, Traceability, As-Builts',
     description:
-      'Precision modular systems fabricated at our Pierceland facility or assembled directly on your lease site. We adapt our workflow to your project\'s specific logistical needs.',
-    stat: { value: 'VERSATILE', label: 'Deployment' },
+      'Bid, award, fabrication, field support, QC, MTR, NDE, traceability, and as-built turnover workflows for operating-plant work.',
+    stat: { value: 'QC', label: 'Turnover' },
     Visual: ModularVisual,
   },
   {
     id: 'machining',
-    title: 'Machining',
+    title: 'Machining & Repair',
     subtitle: 'Mill & Lathe Services',
     description:
-      'Precision CNC and manual machining for custom components, repairs, and downhole parts. Equipped to handle technical requirements with professional accuracy.',
+      'CNC and manual machining for custom components, repairs, fixtures, and WellFi/downhole parts where fit and repeatability matter.',
     stat: { value: 'PRO', label: 'Machining' },
     Visual: MachiningVisual,
   },
   {
-    id: 'storage',
-    title: 'Pipe Storage',
-    subtitle: 'Secured Yard & Logistics',
+    id: 'wellfi',
+    title: 'WellFi',
+    subtitle: 'Downhole Technology',
     description:
-      'MPS is situated on 136 acres of secured, organized pipe storage — one of Western Canada\'s largest independent yards. Full inventory tracking, 24/7 monitored access, and direct field dispatch.',
-    stat: { value: '136', label: 'Acres' },
-    Visual: PipeStorageVisual,
-  },
-  {
-    id: 'downhole',
-    title: 'Downhole Tools',
-    subtitle: 'Below-Surface Innovation',
-    description:
-      'Sand control tools and monitoring solutions — our newest division, bringing surface precision underground to the wellbore.',
-    stat: { value: 'NEW', label: 'Division' },
+      'WellFi is the first public MPS downhole technology product, and the starting point for future sand-control and flow-control development.',
+    stat: { value: 'NEW', label: 'Platform' },
     Visual: DownholeVisual,
   },
 ];
@@ -206,13 +205,16 @@ export const ServicesPrecision = () => {
   }, []);
 
   const handleQuoteRequestClick = useCallback((service: Service) => {
-    trackLeadEvent('quote_request_click', {
+    trackLeadEvent('service_inquiry_click', {
       cta_location: 'services_modal',
       service_id: service.id,
       service_name: service.title,
     });
     closeModal();
-    openWizard({ department: 'services', service: service.title });
+    openWizard({
+      department: service.id === 'wellfi' ? 'wellfi' : 'services',
+      service: service.title,
+    });
   }, [closeModal, openWizard]);
 
   return (
@@ -356,7 +358,7 @@ export const ServicesPrecision = () => {
                   className={styles.modalCta}
                   onClick={() => handleQuoteRequestClick(expandedService)}
                 >
-                  Request a Quote
+                  Start an Inquiry
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

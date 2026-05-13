@@ -25,9 +25,13 @@ const parseSSEStream = async (
   const decoder = new TextDecoder();
   let buffer = '';
 
-  while (true) {
+  let streamDone = false;
+  while (!streamDone) {
     const { done, value } = await reader.read();
-    if (done) break;
+    if (done) {
+      streamDone = true;
+      break;
+    }
 
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split('\n');
@@ -83,7 +87,7 @@ const CloseIcon = () => (
 // ── Component ────────────────────────────────────────────────────────────
 
 const WELCOME_TEXT =
-  "Hi! I'm the MPS Automotive assistant. Ask me about our services, pricing, hours, or anything else — or scroll down to book your appointment.";
+  'The MPS site guide is being rebuilt from approved company content. For now, use the contact form or email info@mpsgroup.ca.';
 
 export const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -204,14 +208,14 @@ export const ChatWidget = () => {
 
       {/* Chat panel */}
       {isOpen && (
-        <div className={styles.panel} role="dialog" aria-label="Chat with MPS Automotive">
+        <div className={styles.panel} role="dialog" aria-label="MPS site guide status">
           {/* Header */}
           <div className={styles.header}>
             <div>
-              <div className={styles.headerTitle}>MPS Automotive</div>
+              <div className={styles.headerTitle}>MPS Site Guide</div>
               <div className={styles.headerStatus}>
                 <span className={styles.headerDot} />
-                Online
+                Paused
               </div>
             </div>
             <button
@@ -248,17 +252,17 @@ export const ChatWidget = () => {
             <textarea
               ref={inputRef}
               className={styles.input}
-              placeholder="Ask about services, pricing, hours..."
+              placeholder="Site guide paused during rebuild"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               rows={1}
-              disabled={isStreaming}
+              disabled
             />
             <button
               className={styles.sendButton}
               onClick={sendMessage}
-              disabled={!input.trim() || isStreaming}
+              disabled
               aria-label="Send message"
               type="button"
             >

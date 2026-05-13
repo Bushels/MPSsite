@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagneticElement } from './MagneticElement';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
-import { useTalkToUs } from '../context/TalkToUsContext';
+import { useTalkToUs } from '../context/talkToUs';
 import styles from './FluidNav.module.css';
 import mpsLogo from '../../MPS Logo.png';
 
 const navItems = [
   { label: 'Services', href: '#services' },
-  { label: 'Products', href: '/wellfi' },
+  { label: 'WellFi', href: '/wellfi' },
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
   { label: 'Contact', href: '#contact' },
-  { label: 'Automotive', href: '/automotive/' },
 ];
 
 export const FluidNav = () => {

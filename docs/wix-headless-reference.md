@@ -4,6 +4,13 @@
 
 Volatile reference data for the MPS Group Wix headless integration. The decision-making rules live in [`.claude/agents/wix-headless-agent.md`](../.claude/agents/wix-headless-agent.md). The SDK code patterns live in [`.claude/skills/mps-wix-sdk/SKILL.md`](../.claude/skills/mps-wix-sdk/SKILL.md).
 
+## Current architecture boundary
+
+- `mpsgroup.energy` is the canonical public website and should remain the Vercel-hosted React site.
+- Wix is optional backend plumbing for CMS, Bookings, OAuth, or CRM workflows; it is not the public website builder for the canonical site.
+- `mpsgroup.ca` is legacy until redirected or retired.
+- Porkbun can remain registrar/DNS owner for `mpsgroup.energy`; point its DNS records to Vercel when domain work resumes. Do not point the canonical public site to Wix unless a specific Wix feature justifies changing the architecture.
+
 ## Account context
 
 - **Account**: kylegronning2 (Owner), Wix Studio

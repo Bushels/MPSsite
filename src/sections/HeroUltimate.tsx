@@ -1,5 +1,5 @@
-import { useEffect, useRef, useCallback, useMemo, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useMemo, useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import styles from './HeroUltimate.module.css';
 import mpsLogo from '../../MPS Logo.png';
@@ -11,7 +11,7 @@ import mpsLogo from '../../MPS Logo.png';
    shorter black keys nestled between them.
    Variable heights create organic rhythm.
    5-layer glass material per key.
-   Positional glow tracks cursor Y.
+   Layered glass keys create depth without cursor-following effects.
 
    SUBMERSION ENTRANCE: SVG displacement filter
    creates liquid surface effect. Camera "breaches"
@@ -46,13 +46,10 @@ const getWhiteKeyCount = () => {
 
 export const HeroUltimate = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const keysRef = useRef<(HTMLDivElement | null)[]>([]);
   const displacementRef = useRef<SVGFEDisplacementMapElement>(null);
   const turbulenceRef = useRef<SVGFETurbulenceElement>(null);
   const [phase, setPhase] = useState(0);
   const [whiteKeyCount] = useState(getWhiteKeyCount);
-  const cursorX = useMotionValue(0);
-  const cursorY = useMotionValue(0);
   const { tier, prefersReducedMotion } = useDeviceCapability();
 
   // ── Scroll parallax ──
@@ -69,9 +66,6 @@ export const HeroUltimate = () => {
   const keysScale = useTransform(scrollYProgress, [0, 0.5], [1, 0.96]);
   const keysBlur = useTransform(scrollYProgress, [0, 0.4], [0, 4]);
   const keysBlurFilter = useTransform(keysBlur, (v) => `blur(${v}px)`);
-
-  const smoothX = useSpring(cursorX, { stiffness: 30, damping: 25 });
-  const smoothY = useSpring(cursorY, { stiffness: 30, damping: 25 });
 
   // ── Key generation ──
   const keys = useMemo(() => {
@@ -119,64 +113,6 @@ export const HeroUltimate = () => {
 
     return configs;
   }, [whiteKeyCount]);
-
-  // ── Mouse glow with position tracking ──
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    cursorX.set(e.clientX);
-    cursorY.set(e.clientY);
-
-    keysRef.current.forEach((key) => {
-      if (!key) return;
-      const rect = key.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxDist = 300;
-      const glow = Math.max(0, 1 - dist / maxDist);
-
-      const yNorm = Math.max(0, Math.min(1,
-        (e.clientY - rect.top) / rect.height
-      ));
-
-      key.style.setProperty('--glow', glow.toFixed(3));
-      key.style.setProperty('--glow-y', yNorm.toFixed(3));
-
-      if (glow > 0.01) {
-        key.classList.add(styles.glowing);
-      } else {
-        key.classList.remove(styles.glowing);
-      }
-    });
-  }, [cursorX, cursorY]);
-
-  useEffect(() => {
-    let lastCall = 0;
-    const handler = (e: MouseEvent) => {
-      const now = Date.now();
-      if (now - lastCall >= 16) {
-        lastCall = now;
-        handleMouseMove(e);
-      }
-    };
-    window.addEventListener('mousemove', handler, { passive: true });
-    return () => window.removeEventListener('mousemove', handler);
-  }, [handleMouseMove]);
-
-  useEffect(() => {
-    const handleLeave = () => {
-      keysRef.current.forEach((key) => {
-        if (key) {
-          key.classList.remove(styles.glowing);
-          key.style.setProperty('--glow', '0');
-          key.style.setProperty('--glow-y', '0.5');
-        }
-      });
-    };
-    document.addEventListener('mouseleave', handleLeave);
-    return () => document.removeEventListener('mouseleave', handleLeave);
-  }, []);
 
   // ── SUBMERSION ENTRANCE SEQUENCE ──
   // SVG displacement filter creates liquid distortion that clears as user "breaches the surface"
@@ -340,12 +276,6 @@ export const HeroUltimate = () => {
         </defs>
       </svg>
 
-      {/* Ambient cursor light */}
-      <motion.div
-        className={styles.cursorGlow}
-        style={{ x: smoothX, y: smoothY }}
-      />
-
       {/* ── Keys Background ── */}
       <motion.div
         className={`${styles.keysContainer} ${phase === 1 ? styles.submersing : ''} ${phase >= 2 ? styles.surfaced : ''}`}
@@ -371,25 +301,21 @@ export const HeroUltimate = () => {
         </div>
 
         <div className={styles.keysLayer}>
-          {keys.map((key, index) => (
+          {keys.map((key) => (
             <div
               key={key.id}
-              ref={(el) => { keysRef.current[index] = el; }}
               className={`${styles.key} ${key.isBlack ? styles.keyBlack : styles.keyWhite}`}
               style={{
                 '--key-height': `${key.heightPct}%`,
                 '--reveal-delay': `${key.revealDelay}s`,
                 '--float-duration': `${key.floatDuration}s`,
                 '--float-amount': `${-key.floatAmount}px`,
-                '--glow': '0',
-                '--glow-y': '0.5',
               } as React.CSSProperties}
             >
               <div className={styles.keyShell}>
                 <div className={styles.keyGlass} />
                 <div className={styles.keyHighlight} />
                 <div className={styles.keyCaustic} />
-                <div className={styles.keyGlowSpot} />
               </div>
             </div>
           ))}
@@ -465,9 +391,7 @@ export const HeroUltimate = () => {
 
               <motion.div variants={fadeUp} className={styles.descriptorRow}>
                 <span className={styles.descriptorLine} />
-                <span className={styles.descriptor}>
-                  Surface fabrication. Downhole innovation.
-                </span>
+                <span className={styles.descriptor}>We make heavy oil flow.</span>
                 <span className={styles.descriptorLine} />
               </motion.div>
 

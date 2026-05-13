@@ -1,0 +1,11 @@
+.agent
+.agents
+.claude
+.playwright-cli
+output
+node_modules
+dist
+dist-ssr
+*.local
+*.tsbuildinfo
+.env*.local

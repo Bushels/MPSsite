@@ -3,6 +3,119 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mpsgroup.energy"
+        }
+      ],
+      "destination": "https://mpsgroup.energy/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mpsgroup.ca"
+        }
+      ],
+      "destination": "https://mpsgroup.energy/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "mpsgroup.ca"
+        }
+      ],
+      "destination": "https://mpsgroup.energy/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mpsgroup.energy"
+        }
+      ],
+      "destination": "https://mpsgroup.energy/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mpsgroup.ca"
+        }
+      ],
+      "destination": "https://mpsgroup.energy/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "mpsgroup.ca"
+        }
+      ],
+      "destination": "https://mpsgroup.energy/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/careers",
+      "destination": "/#careers",
+      "permanent": true
+    },
+    {
+      "source": "/mission",
+      "destination": "/#about",
+      "permanent": true
+    },
+    {
+      "source": "/quality",
+      "destination": "/#about",
+      "permanent": true
+    },
+    {
+      "source": "/storage",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/storage/:path*",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/automotive",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/automotive/:path*",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/wellfi",
