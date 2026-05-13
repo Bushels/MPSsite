@@ -6,7 +6,7 @@ Current truth about this project. Updated at the start and end of any meaningful
 
 ## Last verified release
 
-- Production deploy: `https://mps-group-cff8kxlj8-kyles-projects-d3ab6818.vercel.app`
+- Production deploy: `https://mps-group-4n1njbbfo-kyles-projects-d3ab6818.vercel.app`
 - Canonical URL: `https://mpsgroup.energy/`
 - Verification date: 2026-05-13
 - Previous committed baseline: `f55ef8d` - refactor(wix): split persona, reference, and SDK skill
@@ -32,7 +32,7 @@ Current truth about this project. Updated at the start and end of any meaningful
 - The 5 MPS subagents and 1 skill (`mps-booking-system`) are already at canonical `.claude/` paths and pass `npm run audit:agents` cleanly.
 - The current site-audit plan uses the MPS agents as checklists: section-builder for UI edits, design/accessibility/performance reviewers for regression passes, booking-system only for automotive/chat files, and Wix only for optional backend plumbing.
 - 2026-05-13 local patch: homepage metadata, JSON-LD, `llms.txt`, Services section, hero descriptor, About copy, nav label, inquiry routing, and `/api/chat` are aligned to Surface Facilities first and WellFi as emerging downhole technology. `npm run lint` and `npm run build` pass.
-- 2026-05-13 production deploy: deployment `https://mps-group-cff8kxlj8-kyles-projects-d3ab6818.vercel.app` is live on `https://mpsgroup.energy/`. Live checks passed for homepage title/canonical/OG URL/description, `robots.txt`, `sitemap.xml`, `llms.txt`, and the restored hero motto.
+- 2026-05-13 production deploy: deployment `https://mps-group-4n1njbbfo-kyles-projects-d3ab6818.vercel.app` is live on `https://mpsgroup.energy/`. Live checks passed for homepage title/canonical/OG URL/description, `robots.txt`, `sitemap.xml`, `llms.txt`, the restored hero motto, and the 320px mobile wrap.
 - 2026-05-13 wrap-up: archived old chat/automotive/Pipe Vault/custom-cursor behavior in `docs/archive/2026-05-13-legacy-feature-archive.md`; tightened Wix agent/skill boundary; restored hero motto to `Surface fabrication. Downhole innovation.` Narrow mobile uses a wrapped two-line motto to avoid clipping.
 - The legacy stitch scaffold left behind 60+ unrelated Flutter/Lit/Dart skills under `.agent/skills/` (already gitignored). All 133 audit warnings come from this directory; deleting it would zero out audit noise.
 - `vercel.json` contains the `/wellfi` rewrite. Vercel CLI is available through `npx vercel` in this environment.
