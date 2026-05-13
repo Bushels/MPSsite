@@ -1,7 +1,7 @@
 # MPS Site Audit Improvement Plan
 
 Date: 2026-05-13
-Status: Phase 1/2 deployed to `mpsgroup.energy`; session wrap-up and WellFi route review pending
+Status: Phase 1/2 deployed and committed; WellFi route review pending
 
 ## Purpose
 
