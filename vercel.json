@@ -76,6 +76,11 @@
       "permanent": true
     },
     {
+      "source": "/wellfi/",
+      "destination": "https://yotinenergy.com/wellfi",
+      "permanent": true
+    },
+    {
       "source": "/wellfi/:path*",
       "destination": "https://yotinenergy.com/wellfi",
       "permanent": true
