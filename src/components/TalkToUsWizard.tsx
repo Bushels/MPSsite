@@ -28,8 +28,8 @@ const DEPARTMENTS: Department[] = [
   {
     id: 'wellfi',
     name: 'WellFi / Downhole Technology',
-    desc: 'First MPS downhole product',
-    redirect: '/wellfi/',
+    desc: 'Now at Yôtin Energy',
+    redirect: 'https://yotinenergy.com/wellfi',
   },
   {
     id: 'general',
