@@ -8,7 +8,7 @@ import mpsLogo from '../../MPS Logo.png';
 
 const navItems = [
   { label: 'Services', href: '#services' },
-  { label: 'WellFi', href: '/wellfi' },
+  { label: 'WellFi', href: 'https://yotinenergy.com/wellfi' },
   { label: 'About', href: '#about' },
   { label: 'Careers', href: '#careers' },
   { label: 'Contact', href: '#contact' },

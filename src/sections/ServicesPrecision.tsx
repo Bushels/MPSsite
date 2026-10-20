@@ -84,9 +84,9 @@ const services: Service[] = [
   {
     id: 'wellfi',
     title: 'WellFi',
-    subtitle: 'Downhole Technology',
+    subtitle: 'By Yôtin Energy',
     description:
-      'WellFi is the first public MPS downhole technology product, and the starting point for future sand-control and flow-control development.',
+      'WellFi downhole technology now has its own home with Yôtin Energy. Product details, specs and contact are at yotinenergy.com.',
     stat: { value: 'NEW', label: 'Platform' },
     Visual: DownholeVisual,
   },

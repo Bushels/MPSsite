@@ -71,6 +71,21 @@
       "permanent": true
     },
     {
+      "source": "/wellfi",
+      "destination": "https://yotinenergy.com/wellfi",
+      "permanent": true
+    },
+    {
+      "source": "/wellfi/",
+      "destination": "https://yotinenergy.com/wellfi",
+      "permanent": true
+    },
+    {
+      "source": "/wellfi/:path*",
+      "destination": "https://yotinenergy.com/wellfi",
+      "permanent": true
+    },
+    {
       "source": "/services",
       "destination": "/#services",
       "permanent": true
@@ -114,20 +129,6 @@
       "source": "/automotive/:path*",
       "destination": "/",
       "permanent": false
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/wellfi",
-      "destination": "https://wellfi-marketing.vercel.app/"
-    },
-    {
-      "source": "/wellfi/:path*",
-      "destination": "https://wellfi-marketing.vercel.app/:path*"
-    },
-    {
-      "source": "/images/:path*",
-      "destination": "https://wellfi-marketing.vercel.app/images/:path*"
     }
   ]
 }

@@ -18,8 +18,7 @@ Primary work includes:
 
 ## Emerging Downhole Technology
 
-WellFi is the first public MPS downhole technology product.
-MPS is building from WellFi into future sand-control and flow-control opportunities.
+WellFi downhole technology now has its own home with Yôtin Energy: https://yotinenergy.com/wellfi
 Do not describe MPS as having a mature broad sand-control or flow-control catalog unless that wording appears on the public site or in approved company material.
 
 ## Future Concepts
